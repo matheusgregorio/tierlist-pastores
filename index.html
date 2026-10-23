@@ -89,6 +89,9 @@ button:focus-visible, input:focus-visible, [contenteditable]:focus-visible, .chi
 @media (hover: hover) { .chip:hover .tirar { display: grid; } }
 .tirar:hover { background: #e5484d; color: #fff; border-color: #e5484d; }
 .chip.dragging { opacity: .4; }
+.chip.antes::before, .chip.depois::after { content: ""; position: absolute; top: 0; width: 4px; border-radius: 2px;
+  aspect-ratio: auto; height: calc(100% - 4px); background: var(--accent); }
+.chip.antes::before { left: -6px; } .chip.depois::after { right: -6px; }
 .av { width: 100%; aspect-ratio: 1; border-radius: 10px; background: var(--accent); color: var(--on-accent);
   display: grid; place-items: center; font-family: var(--display); font-size: 1.6rem; overflow: hidden;
   box-shadow: 0 0 0 1px var(--av-line), 0 1px 3px var(--shadow); }
@@ -141,7 +144,7 @@ input::placeholder { color: var(--muted); }
     <div class="titulo">
       <p class="eyebrow">TIER LIST</p>
       <h1>Pastores Brasileiros</h1>
-      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira. Para renomear uma fileira, toque no S, A, B…</p>
+      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira. Para trocar a ordem, toque num cartão e depois em outro. Para renomear uma fileira, toque no S, A, B…</p>
       <a class="outra" href="historia/">Veja também: Teólogos da História →</a>
     </div>
     <div class="btns">
@@ -244,7 +247,7 @@ function iniciais(n) {
 }
 
 function estadoInicial() {
-  const s = { labels: {}, pos: {}, extras: [], removidos: [] };
+  const s = { labels: {}, pos: {}, ordem: {}, extras: [], removidos: [] };
   TIERS.forEach(t => s.labels[t.id] = t.id);
   return s;
 }
@@ -271,7 +274,28 @@ function chip(p) {
   el.append(av, nm);
   el.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", el.dataset.id); el.classList.add("dragging"); });
   el.addEventListener("dragend", () => el.classList.remove("dragging"));
-  el.addEventListener("click", e => { e.stopPropagation(); selecionar(el); });
+  const destinoDe = () => el.closest(".drop")?.dataset.dest;
+  el.addEventListener("click", e => {
+    e.stopPropagation();
+    // com outro cartão selecionado, tocar aqui coloca o selecionado nesta posição
+    if (selecionado && selecionado !== el) {
+      const id = selecionado.dataset.id; selecionado = null; marcarAlvos(false);
+      mover(id, destinoDe(), el.dataset.id, false); return;
+    }
+    selecionar(el);
+  });
+  el.addEventListener("dragover", e => {
+    e.preventDefault(); e.stopPropagation();
+    const depois = e.offsetX > el.clientWidth / 2;
+    el.classList.toggle("depois", depois); el.classList.toggle("antes", !depois);
+  });
+  el.addEventListener("dragleave", () => el.classList.remove("antes", "depois"));
+  el.addEventListener("drop", e => {
+    e.preventDefault(); e.stopPropagation();
+    const depois = el.classList.contains("depois"); el.classList.remove("antes", "depois");
+    el.closest(".drop")?.classList.remove("over");
+    mover(e.dataTransfer.getData("text/plain"), destinoDe(), el.dataset.id, depois);
+  });
   el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selecionar(el); } });
   const x = document.createElement("button"); x.type = "button"; x.className = "tirar"; x.textContent = "×";
   x.setAttribute("aria-label", "Tirar " + p.nome + " da lista"); x.title = "Tirar da lista";
@@ -287,8 +311,26 @@ function selecionar(el) {
 }
 function marcarAlvos(on) { document.querySelectorAll(".drop").forEach(d => d.classList.toggle("target", on)); }
 
-function mover(id, destino) {
-  if (destino === "pool") delete estado.pos[id]; else estado.pos[id] = destino;
+/* Ordem dentro de cada fileira: estado.ordem[fileira] = [ids]. Quem não está na lista vai para o fim. */
+function naFileira(pessoas, tid) {
+  const ordem = (estado.ordem && estado.ordem[tid]) || [];
+  const pos = id => { const i = ordem.indexOf(id); return i < 0 ? 1e9 : i; };
+  return pessoas.filter(p => estado.pos[pid(p)] === tid)
+    .map((p, n) => [p, n]).sort((a, b) => pos(pid(a[0])) - pos(pid(b[0])) || a[1] - b[1]).map(x => x[0]);
+}
+// Move "id" para a fileira "destino"; com refId, entra antes (ou depois) daquele cartão.
+function mover(id, destino, refId, depois) {
+  if (!id || id === refId) return;
+  estado.ordem = estado.ordem || {};
+  Object.keys(estado.ordem).forEach(k => { estado.ordem[k] = estado.ordem[k].filter(x => x !== id); });
+  if (destino === "pool") delete estado.pos[id];
+  else {
+    estado.pos[id] = destino;
+    const ids = naFileira(todos(), destino).map(pid).filter(x => x !== id);
+    let i = refId ? ids.indexOf(refId) : -1;
+    i = i < 0 ? ids.length : i + (depois ? 1 : 0);
+    ids.splice(i, 0, id); estado.ordem[destino] = ids;
+  }
   salvar(); render();
 }
 let antesDeRemover = null, desfazerTimer;
@@ -341,9 +383,9 @@ function render() {
     txt.addEventListener("paste", e => { e.preventDefault(); document.execCommand("insertText", false, (e.clipboardData.getData("text/plain") || "").replace(/\s+/g, " ")); });
     txt.addEventListener("blur", () => { if (!txt.textContent.trim()) { txt.textContent = t.id; ajustarRotulo(txt); } });
     lab.append(txt);
-    const drop = document.createElement("div"); drop.className = "drop";
+    const drop = document.createElement("div"); drop.className = "drop"; drop.dataset.dest = t.id;
     prepararDrop(drop, t.id);
-    pessoas.filter(p => estado.pos[pid(p)] === t.id).forEach(p => drop.append(chip(p)));
+    naFileira(pessoas, t.id).forEach(p => drop.append(chip(p)));
     row.append(lab, drop); board.append(row);
   });
   const soltos = pessoas.filter(p => !TIERS.some(t => t.id === estado.pos[pid(p)]));
@@ -351,6 +393,7 @@ function render() {
   if (!pessoas.length) pool.innerHTML = '<div class="empty">Nenhum pastor ainda. Adicione pelo campo abaixo.</div>';
   ajustarTodos();
 }
+pool.dataset.dest = "pool";
 prepararDrop(pool, "pool");
 
 document.getElementById("add").addEventListener("submit", e => {
@@ -405,7 +448,7 @@ function retArredondado(ctx, x, y, w, h, r) {
 async function gerarImagem() {
   try { await Promise.all([document.fonts.load(`64px ${DISPLAY}`), document.fonts.load(`700 18px ${BODY}`), document.fonts.load(`600 18px ${BODY}`)]); } catch (e) {}
   const pessoas = todos();
-  const fileiras = TIERS.map(t => ({ t, gente: pessoas.filter(p => estado.pos[pid(p)] === t.id) }));
+  const fileiras = TIERS.map(t => ({ t, gente: naFileira(pessoas, t.id) }));
   if (!fileiras.some(f => f.gente.length)) return null;
 
   const fotos = new Map();
