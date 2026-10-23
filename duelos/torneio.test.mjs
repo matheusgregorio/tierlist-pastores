@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { CATEGORIAS, chave, escolher, novoTorneio, restaurar, restaurarCategoria, sortear } from './torneio.mjs';
+import { CATEGORIAS, chave, escolher, novoTorneio, ordemInicial, respeitaRegras, restaurar, restaurarCategoria, sortear } from './torneio.mjs';
 
 test('os 16 duelos produzem ouro, prata e bronze distintos', () => {
   const t = novoTorneio();
@@ -78,8 +78,23 @@ test('elenco brasileiro fecha 16 nomes sem duplicações e respeita as trocas', 
 test('mudanças de elenco reiniciam só as categorias alteradas', () => {
   const antigo = novoTorneio(); escolher(antigo, 1);
   for (const categoria of CATEGORIAS) {
-    const esperado = categoria.versao === 2 ? novoTorneio() : antigo;
+    const esperado = (categoria.versao || 1) > 1 ? novoTorneio() : antigo;
     assert.deepEqual(restaurarCategoria(categoria, antigo), esperado, categoria.id);
     assert.deepEqual(restaurarCategoria(categoria, {...antigo, versao: categoria.versao || 1}), antigo);
   }
+});
+
+test('chave padrão e sorteios respeitam cabeças de chave e duplas separadas', () => {
+  for (const c of CATEGORIAS) {
+    assert.ok(respeitaRegras(c, ordemInicial()), `chave padrão de ${c.id}`);
+    let semente = 7;
+    const aleatorio = () => (semente = (semente * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 300; i++) assert.ok(respeitaRegras(c, sortear(aleatorio, c).ordem), `sorteio ${i} de ${c.id}`);
+  }
+  const p = CATEGORIAS.find(c => c.id === 'pregadores');
+  const nomes = ordemInicial().map(i => p.pessoas[i].nome);
+  const lado = n => nomes.indexOf(n) < 8;
+  assert.notEqual(lado('Augustus Nicodemus'), lado('Hernandes Dias Lopes'));
+  assert.notEqual(lado('Luiz Sayão'), lado('Jonas Madureira'));
+  assert.notEqual(lado('Carlos Vailatti'), lado('Elizeu Rodrigues'));
 });

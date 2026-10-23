@@ -5,17 +5,25 @@ const hist = (nome, numero) => pessoa(nome, `../historia/fotos/${numero}.jpg`);
 
 export const CATEGORIAS = [
   {
-    id: 'pregadores', versao: 2, titulo: 'Pregadores brasileiros', curto: 'Pregadores', cor: '#1f4e79',
+    id: 'pregadores', versao: 3, titulo: 'Pregadores brasileiros', curto: 'Pregadores', cor: '#1f4e79',
     pergunta: 'Quem avança para a próxima fase?',
+    // Cabeças de chave ficam em quartos diferentes (só se cruzam a partir da semifinal).
+    cabecas: ['Augustus Nicodemus', 'Hernandes Dias Lopes', 'Luiz Sayão', 'Jonas Madureira'],
+    // Cada dupla fica em lados opostos da chave (só se cruza na final).
+    separar: [['Augustus Nicodemus', 'Hernandes Dias Lopes'], ['Luiz Sayão', 'Jonas Madureira'], ['Carlos Vailatti', 'Elizeu Rodrigues']],
     pessoas: [
-      br('Augustus Nicodemus', '01'), br('Hernandes Dias Lopes', '02'),
-      br('Franklin Ferreira', 'franklin-ferreira'), br('Luiz Sayão', '04'),
-      br('Paulo Junior', '25'), br('Heber Campos Jr.', '26'),
+      // 1º quarto
+      br('Augustus Nicodemus', '01'), pessoa('Mauro Meister'),
       br('Filipe Fontes', '27'), br('Yago Martins', '05'),
-      br('Carlos Vailatti', '29'), br('Elizeu Rodrigues', '39'),
-      pessoa('Emílio Garófalo Neto'), br('Victor Fontana', '23'),
-      br('Judiclay Santos', 'judiclay-santos'), pessoa('Mauro Meister'),
+      // 2º quarto
+      br('Luiz Sayão', '04'), br('Judiclay Santos', 'judiclay-santos'),
+      br('Carlos Vailatti', '29'), pessoa('Emílio Garófalo Neto'),
+      // 3º quarto
       br('Jonas Madureira', '03'), br('Marcos Granconato', '34'),
+      br('Paulo Junior', '25'), br('Heber Campos Jr.', '26'),
+      // 4º quarto
+      br('Hernandes Dias Lopes', '02'), br('Victor Fontana', '23'),
+      br('Franklin Ferreira', 'franklin-ferreira'), br('Elizeu Rodrigues', '39'),
     ],
   },
   {
@@ -122,13 +130,27 @@ export function restaurar(valor) {
   return torneio;
 }
 
-export function sortear(aleatorio = Math.random) {
-  const ordem = ordemInicial();
-  for (let i = ordem.length - 1; i > 0; i--) {
-    const j = Math.floor(aleatorio() * (i + 1));
-    [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+// Confere as regras de chaveamento da categoria para uma ordem (posição -> participante).
+// Posições 0–3, 4–7, 8–11 e 12–15 são os quartos; 0–7 e 8–15 são os dois lados.
+export function respeitaRegras(categoria, ordem) {
+  if (!categoria) return true;
+  const idx = nome => categoria.pessoas.findIndex(p => p.nome === nome);
+  const posicao = nome => ordem.indexOf(idx(nome));
+  const quartos = (categoria.cabecas || []).map(n => Math.floor(posicao(n) / 4));
+  if (new Set(quartos).size !== quartos.length) return false;
+  return (categoria.separar || []).every(([a, b]) => (posicao(a) < 8) !== (posicao(b) < 8));
+}
+
+export function sortear(aleatorio = Math.random, categoria) {
+  for (let tentativa = 0; tentativa < 5000; tentativa++) {
+    const ordem = ordemInicial();
+    for (let i = ordem.length - 1; i > 0; i--) {
+      const j = Math.floor(aleatorio() * (i + 1));
+      [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+    }
+    if (respeitaRegras(categoria, ordem)) return novoTorneio(ordem);
   }
-  return novoTorneio(ordem);
+  return novoTorneio();
 }
 
 // Evita reaproveitar escolhas por índice quando os participantes mudam.

@@ -138,7 +138,7 @@ selecionarCategoria();
 $('voltar').addEventListener('click', () => { atual().escolhas.pop(); salvar(); focoPendente = true; render(); });
 function confirmar(tipo) {
   const executar = () => {
-    torneios[categoria.id] = tipo === 'sortear' ? sortear() : novoTorneio();
+    torneios[categoria.id] = tipo === 'sortear' ? sortear(Math.random, categoria) : novoTorneio();
     salvar(); render();
     $('aviso').textContent = tipo === 'sortear' ? 'Novos confrontos sorteados. Pode começar!' : 'Confrontos originais restaurados.';
   };
