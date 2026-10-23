@@ -366,13 +366,24 @@ async function gerarImagem() {
   const fotos = new Map();
   await Promise.all(pessoas.filter(p => estado.pos[pid(p)]).map(async p => fotos.set(pid(p), await carregarFoto(p.foto))));
 
+  // Altura máxima 1350 (formato 4:5): o WhatsApp e o Instagram mostram a imagem inteira, sem cortar.
+  // Com muita gente, as fotos diminuem até tudo caber.
+  const H_MAX = 1350, topo = 210, rodape = 100, gapFileira = 8;
   const areaX = IMG.pad + IMG.labelW, areaW = IMG.W - IMG.pad * 2 - IMG.labelW;
-  const porLinha = Math.max(1, Math.floor((areaW - IMG.rowPad * 2 + IMG.gapX) / (IMG.cell + IMG.gapX)));
-  const celH = IMG.foto + IMG.nomeH;
-  const alturas = fileiras.map(f => Math.max(1, Math.ceil(f.gente.length / porLinha)) * celH + IMG.rowPad * 2 - 6);
-
-  const topo = 210, rodape = 110, gapFileira = 8;
-  const H = topo + alturas.reduce((a, b) => a + b, 0) + gapFileira * (fileiras.length - 1) + rodape;
+  function medir(k) {
+    const foto = Math.round(IMG.foto * k), cell = Math.round(IMG.cell * k), gapX = Math.round(IMG.gapX * k);
+    const rowPad = Math.round(IMG.rowPad * Math.max(k, .6)), nomeFonte = Math.max(11, Math.round(17 * Math.min(1, k * 1.15)));
+    const nomeH = Math.round(nomeFonte * 2.4 + 6), celH = foto + nomeH;
+    const porLinha = Math.max(1, Math.floor((areaW - rowPad * 2 + gapX) / (cell + gapX)));
+    const alturas = fileiras.map(f => f.gente.length
+      ? Math.ceil(f.gente.length / porLinha) * celH + rowPad * 2 - 6
+      : Math.round(celH * .55) + rowPad * 2);
+    const H = topo + alturas.reduce((a, b) => a + b, 0) + gapFileira * (fileiras.length - 1) + rodape;
+    return { foto, cell, gapX, rowPad, nomeFonte, celH, porLinha, alturas, H };
+  }
+  let k = 1, L = medir(k);
+  while (L.H > H_MAX && k > .4) { k -= .02; L = medir(k); }
+  const { foto: FOTO, cell: CELL, gapX: GAPX, rowPad: ROWPAD, nomeFonte, celH, porLinha, alturas, H } = L;
   const escala = 2;
   const cv = document.createElement("canvas"); cv.width = IMG.W * escala; cv.height = H * escala;
   const ctx = cv.getContext("2d"); ctx.scale(escala, escala);
@@ -404,20 +415,22 @@ async function gerarImagem() {
     // pessoas
     f.gente.forEach((p, k) => {
       const col = k % porLinha, lin = Math.floor(k / porLinha);
-      const cx = areaX + IMG.rowPad + col * (IMG.cell + IMG.gapX), cy = y + IMG.rowPad + lin * celH;
-      const fx = cx + (IMG.cell - IMG.foto) / 2;
-      ctx.save(); retArredondado(ctx, fx, cy, IMG.foto, IMG.foto, 14); ctx.clip();
+      const cx = areaX + ROWPAD + col * (CELL + GAPX), cy = y + ROWPAD + lin * celH;
+      const fx = cx + (CELL - FOTO) / 2;
+      ctx.save(); retArredondado(ctx, fx, cy, FOTO, FOTO, Math.max(8, Math.round(14 * k))); ctx.clip();
       const im = fotos.get(pid(p));
       if (im) {
-        const s = Math.max(IMG.foto / im.width, IMG.foto / im.height), w = im.width * s, hh = im.height * s;
-        ctx.drawImage(im, fx + (IMG.foto - w) / 2, cy + (IMG.foto - hh) / 2, w, hh);
+        const s = Math.max(FOTO / im.width, FOTO / im.height), w = im.width * s, hh = im.height * s;
+        ctx.drawImage(im, fx + (FOTO - w) / 2, cy + (FOTO - hh) / 2, w, hh);
       } else {
-        ctx.fillStyle = "#1f4e79"; ctx.fillRect(fx, cy, IMG.foto, IMG.foto);
-        ctx.fillStyle = "#f3f1ee"; ctx.font = `36px ${DISPLAY}`; ctx.fillText(iniciais(p.nome), fx + IMG.foto / 2, cy + IMG.foto / 2);
+        ctx.fillStyle = "#1f4e79"; ctx.fillRect(fx, cy, FOTO, FOTO);
+        ctx.fillStyle = "#f3f1ee"; ctx.font = `${Math.round(FOTO * .32)}px ${DISPLAY}`; ctx.fillText(iniciais(p.nome), fx + FOTO / 2, cy + FOTO / 2);
       }
       ctx.restore();
-      ctx.fillStyle = "#1d1b19"; ctx.font = `700 17px ${BODY}`; ctx.textBaseline = "top";
-      quebrar(ctx, p.nome, IMG.cell).slice(0, 2).forEach((l, n) => ctx.fillText(l, cx + IMG.cell / 2, cy + IMG.foto + 8 + n * 20));
+      retArredondado(ctx, fx + .5, cy + .5, FOTO - 1, FOTO - 1, Math.max(8, Math.round(14 * k)));
+      ctx.strokeStyle = "rgba(29, 27, 25, .16)"; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = "#1d1b19"; ctx.font = `700 ${nomeFonte}px ${BODY}`; ctx.textBaseline = "top";
+      quebrar(ctx, p.nome, CELL + Math.round(GAPX * .4)).slice(0, 2).forEach((l, n) => ctx.fillText(l, cx + CELL / 2, cy + FOTO + 6 + n * Math.round(nomeFonte * 1.18)));
       ctx.textBaseline = "middle";
     });
     y += h + gapFileira;
