@@ -37,10 +37,11 @@ button.primary { background: var(--accent); color: var(--bg); border-color: var(
 button:focus-visible, input:focus-visible, [contenteditable]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 #board { display: grid; gap: 4px; background: var(--fg); padding: 4px; border-radius: 6px; }
-.tier { display: grid; grid-template-columns: 96px 1fr; min-height: 84px; }
-.label { display: grid; place-items: center; font-family: var(--display); font-size: 1.6rem; color: #1d1b19;
-  text-align: center; padding: 6px; overflow-wrap: anywhere; hyphens: auto; line-height: 1.1; border-radius: 3px 0 0 3px; }
-.label[contenteditable] { cursor: text; }
+.tier { display: grid; grid-template-columns: 112px 1fr; min-height: 84px; }
+.label { position: relative; overflow: hidden; border-radius: 3px 0 0 3px; }
+.label .txt { position: absolute; inset: 6px; display: flex; align-items: center; justify-content: center;
+  text-align: center; font-family: var(--display); font-size: 26px; line-height: 1.1; color: #1d1b19;
+  overflow-wrap: normal; cursor: text; outline-offset: -2px; }
 .drop { background: var(--row); display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 6px;
   min-width: 0; border-radius: 0 3px 3px 0; transition: background .15s; }
 .drop.over, .drop.target { background: color-mix(in srgb, var(--row), var(--accent) 22%); }
@@ -52,7 +53,7 @@ button:focus-visible, input:focus-visible, [contenteditable]:focus-visible { out
 .av { width: 52px; height: 52px; border-radius: 50%; background: var(--accent); color: var(--bg);
   display: grid; place-items: center; font-family: var(--display); font-size: 1.05rem; overflow: hidden; }
 .av img { width: 100%; height: 100%; object-fit: cover; }
-.nm { font-size: 11.5px; font-weight: 600; text-align: center; line-height: 1.2; overflow-wrap: anywhere; }
+.nm { font-size: 11.5px; font-weight: 600; text-align: center; line-height: 1.2; overflow-wrap: break-word; hyphens: auto; }
 
 .pool-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 h2 { font-family: var(--display); font-size: 1.1rem; margin: 0; }
@@ -76,9 +77,8 @@ input { font: 15px var(--body); padding: 8px 12px; border: 1px solid var(--line)
 .sheet-body img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 14px rgb(0 0 0 / .18); }
 
 @media (max-width: 520px) {
-  .tier { grid-template-columns: 64px 1fr; min-height: 76px; }
-  .label { font-size: 1.2rem; }
-  .chip { width: 66px; } .av { width: 44px; height: 44px; font-size: .9rem; }
+  .tier { grid-template-columns: 76px 1fr; min-height: 76px; }
+  .chip { width: 70px; padding-inline: 2px; } .nm { font-size: 10.5px; } .av { width: 44px; height: 44px; font-size: .9rem; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -237,10 +237,18 @@ function prepararDrop(el, destino) {
   el.addEventListener("click", () => { if (selecionado) { const id = selecionado.dataset.id; selecionado = null; marcarAlvos(false); mover(id, destino); } });
 }
 
-function ajustarRotulo(lab) {
-  const n = lab.textContent.trim().length, maior = Math.max(0, ...lab.textContent.split(/\s+/).map(w => w.length));
-  lab.style.fontSize = n <= 3 ? "" : maior <= 8 && n <= 16 ? "1.1rem" : "0.85rem";
+/* Rótulo das fileiras: começa grande e diminui até o texto caber inteiro no quadrado */
+function ajustarRotulo(txt) {
+  if (!txt.clientHeight) return;
+  let tam = 26;
+  txt.style.fontSize = tam + "px";
+  while (tam > 10 && (txt.scrollHeight > txt.clientHeight + 1 || txt.scrollWidth > txt.clientWidth + 1)) {
+    tam -= 1; txt.style.fontSize = tam + "px";
+  }
 }
+function ajustarTodos() { document.querySelectorAll(".label .txt").forEach(ajustarRotulo); }
+window.addEventListener("resize", ajustarTodos);
+document.fonts?.ready?.then(ajustarTodos);
 
 function render() {
   board.innerHTML = ""; pool.innerHTML = "";
@@ -248,9 +256,12 @@ function render() {
   TIERS.forEach(t => {
     const row = document.createElement("div"); row.className = "tier";
     const lab = document.createElement("div"); lab.className = "label"; lab.style.background = t.cor;
-    lab.contentEditable = "true"; lab.spellcheck = false; lab.textContent = estado.labels[t.id];
-    ajustarRotulo(lab);
-    lab.addEventListener("input", () => { estado.labels[t.id] = lab.textContent.trim() || t.id; ajustarRotulo(lab); salvar(); });
+    const txt = document.createElement("div"); txt.className = "txt";
+    txt.contentEditable = "true"; txt.spellcheck = false; txt.textContent = estado.labels[t.id];
+    txt.setAttribute("aria-label", "Nome da fileira");
+    txt.addEventListener("input", () => { estado.labels[t.id] = txt.textContent.trim() || t.id; ajustarRotulo(txt); salvar(); });
+    txt.addEventListener("blur", () => { if (!txt.textContent.trim()) { txt.textContent = t.id; ajustarRotulo(txt); } });
+    lab.append(txt);
     const drop = document.createElement("div"); drop.className = "drop";
     prepararDrop(drop, t.id);
     pessoas.filter(p => estado.pos[pid(p)] === t.id).forEach(p => drop.append(chip(p)));
@@ -259,6 +270,7 @@ function render() {
   const soltos = pessoas.filter(p => !TIERS.some(t => t.id === estado.pos[pid(p)]));
   soltos.forEach(p => pool.append(chip(p)));
   if (!pessoas.length) pool.innerHTML = '<div class="empty">Nenhum pastor ainda. Adicione pelo campo abaixo.</div>';
+  ajustarTodos();
 }
 prepararDrop(pool, "pool");
 
