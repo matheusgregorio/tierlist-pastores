@@ -27,31 +27,43 @@ export const CATEGORIAS = [
     ],
   },
   {
-    id: 'internacionais', titulo: 'Teólogos internacionais', curto: 'Internacionais', cor: '#4aa3c9',
+    id: 'internacionais', versao: 2, titulo: 'Teólogos internacionais', curto: 'Internacionais', cor: '#4aa3c9',
     pergunta: 'Quem avança para a próxima fase?',
+    cabecas: ['John Piper', 'R. C. Sproul', 'John MacArthur', 'Tim Keller'],
+    separar: [['John Piper', 'John MacArthur'], ['R. C. Sproul', 'Tim Keller'], ['Kevin DeYoung', 'Mark Dever']],
     pessoas: [
-      pessoa('John Piper'), pessoa('John MacArthur'),
-      pessoa('Paul Washer'), pessoa('Tim Keller'),
-      pessoa('R. C. Sproul'), pessoa('Tim Chester'),
-      pessoa('D. A. Carson'), pessoa('John Stott'),
-      pessoa('Wayne Grudem'), pessoa('James K. A. Smith'),
-      pessoa('Mark Driscoll'), pessoa('Mark Dever'),
-      pessoa('Kevin Vanhoozer'), pessoa('Kevin DeYoung'),
-      pessoa('Joel Beeke'), pessoa('N. T. Wright'),
+      // 1º quarto
+      pessoa('John Piper'), pessoa('N. T. Wright'),
+      pessoa('D. A. Carson'), pessoa('Mark Driscoll'),
+      // 2º quarto
+      pessoa('R. C. Sproul'), pessoa('James K. A. Smith'),
+      pessoa('Kevin DeYoung'), pessoa('Tim Chester'),
+      // 3º quarto
+      pessoa('John MacArthur'), pessoa('John Stott'),
+      pessoa('Wayne Grudem'), pessoa('Kevin Vanhoozer'),
+      // 4º quarto
+      pessoa('Tim Keller'), pessoa('Paul Washer'),
+      pessoa('Mark Dever'), pessoa('Joel Beeke'),
     ],
   },
   {
-    id: 'historicos', titulo: 'Teólogos históricos', curto: 'Históricos', cor: '#7cbf5a',
+    id: 'historicos', versao: 2, titulo: 'Teólogos históricos', curto: 'Históricos', cor: '#7cbf5a',
     pergunta: 'Quem avança para a próxima fase?',
+    cabecas: ['Agostinho de Hipona', 'Martinho Lutero', 'João Calvino', 'Charles H. Spurgeon'],
+    separar: [['Martinho Lutero', 'João Calvino'], ['John Owen', 'Jonathan Edwards'], ['Louis Berkhof', 'Herman Bavinck'], ['John Wesley', 'Jacó Armínio']],
     pessoas: [
-      hist('João Calvino', '14'), hist('Jacó Armínio', '18'),
-      hist('Martinho Lutero', '11'), hist('Martin Bucer', '31'),
-      hist('John Owen', '20'), hist('Jonathan Edwards', '23'),
-      hist('Agostinho de Hipona', '03'), hist('Tomás de Aquino', '08'),
-      hist('John Bunyan', '22'), hist('John Knox', '16'),
-      hist('Martyn Lloyd-Jones', '33'), hist('Louis Berkhof', '32'),
-      hist('Charles H. Spurgeon', '27'), hist('Herman Bavinck', '29'),
-      hist('John Wesley', '24'), hist('George Whitefield', '25'),
+      // 1º quarto
+      hist('Agostinho de Hipona', '03'), hist('John Knox', '16'),
+      hist('John Owen', '20'), hist('Tomás de Aquino', '08'),
+      // 2º quarto
+      hist('Martinho Lutero', '11'), hist('George Whitefield', '25'),
+      hist('Herman Bavinck', '29'), hist('Jacó Armínio', '18'),
+      // 3º quarto
+      hist('João Calvino', '14'), hist('John Bunyan', '22'),
+      hist('Jonathan Edwards', '23'), hist('Martin Bucer', '31'),
+      // 4º quarto
+      hist('Charles H. Spurgeon', '27'), hist('Louis Berkhof', '32'),
+      hist('John Wesley', '24'), hist('Martyn Lloyd-Jones', '33'),
     ],
   },
   {
