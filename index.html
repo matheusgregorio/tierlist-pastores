@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tier List de Pastores</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Figtree:wght@400;600;700&display=swap">
+<style>
+/* Layout: cabeçalho curto, fileiras de tier em largura total, banco de nomes embaixo */
+:root {
+  --bg: #f3f1ee; --surface: #ffffff; --row: #e7e3dd; --fg: #1d1b19; --muted: #6b655e; --line: #d4cec6;
+  --accent: #1f4e79;
+  --s: #e5484d; --a: #f08c3a; --b: #e9c43b; --c: #7cbf5a; --d: #4aa3c9; --f: #8b7fd1;
+  --display: "Archivo Black", Impact, "Arial Black", sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161514; --surface: #201f1d; --row: #2a2826; --fg: #f1ede8; --muted: #a39c94; --line: #3a3734; --accent: #7fb2e0; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #161514; --surface: #201f1d; --row: #2a2826; --fg: #f1ede8; --muted: #a39c94; --line: #3a3734; --accent: #7fb2e0; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px; }
+.wrap { max-width: 1000px; margin: 0 auto; display: grid; gap: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+h1 { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.4rem); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font: 600 14px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+button:focus-visible, input:focus-visible, [contenteditable]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#board { display: grid; gap: 4px; background: var(--fg); padding: 4px; border-radius: 6px; }
+.tier { display: grid; grid-template-columns: 96px 1fr; min-height: 84px; }
+.label { display: grid; place-items: center; font-family: var(--display); font-size: 1.6rem; color: #1d1b19;
+  text-align: center; padding: 6px; word-break: break-word; border-radius: 3px 0 0 3px; }
+.label[contenteditable] { cursor: text; }
+.drop { background: var(--row); display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 6px;
+  min-width: 0; border-radius: 0 3px 3px 0; transition: background .15s; }
+.drop.over, .drop.target { background: color-mix(in srgb, var(--row), var(--accent) 22%); }
+
+.chip { width: 76px; display: grid; justify-items: center; gap: 4px; padding: 6px 4px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; cursor: grab; user-select: none; touch-action: manipulation; }
+.chip.sel { outline: 3px solid var(--accent); }
+.chip.dragging { opacity: .4; }
+.av { width: 52px; height: 52px; border-radius: 50%; background: var(--accent); color: var(--bg);
+  display: grid; place-items: center; font-family: var(--display); font-size: 1.05rem; overflow: hidden; }
+.av img { width: 100%; height: 100%; object-fit: cover; }
+.nm { font-size: 11.5px; font-weight: 600; text-align: center; line-height: 1.2; overflow-wrap: anywhere; }
+
+.pool-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+h2 { font-family: var(--display); font-size: 1.1rem; margin: 0; }
+#pool { background: var(--surface); border: 2px dashed var(--line); border-radius: 8px; min-height: 100px; }
+.empty { color: var(--muted); padding: 10px; }
+form { display: flex; gap: 8px; flex-wrap: wrap; }
+input { font: 15px var(--body); padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--fg); flex: 1 1 200px; min-width: 0; }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+
+@media (max-width: 520px) {
+  .tier { grid-template-columns: 64px 1fr; min-height: 76px; }
+  .label { font-size: 1.2rem; }
+  .chip { width: 66px; } .av { width: 44px; height: 44px; font-size: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Tier List de Pastores</h1>
+      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira.</p>
+    </div>
+    <div class="btns">
+      <button id="btn-png" class="primary">Baixar imagem</button>
+      <button id="btn-reset">Recomeçar</button>
+    </div>
+  </header>
+
+  <div id="board"></div>
+
+  <section class="wrap" style="gap:10px">
+    <div class="pool-head">
+      <h2>Pastores</h2>
+      <p class="hint">Duplo clique num nome para removê-lo.</p>
+    </div>
+    <div id="pool" class="drop"></div>
+    <form id="add">
+      <input id="novo" placeholder="Adicionar pastor (ex.: Pr. Fulano de Tal)" autocomplete="off">
+      <button class="primary" type="submit">Adicionar</button>
+    </form>
+    <p class="hint">Rótulos das fileiras são editáveis: clique no S, A, B… e escreva o que quiser.</p>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+/* ===== Lista de pastores =====
+   Edite aqui. "foto" é opcional: caminho de imagem dentro do repositório (ex.: "fotos/fulano.jpg").
+   Sem foto, aparecem as iniciais. */
+const PASTORES = [
+  // Fotos do template original do TierMaker. Troque "Nº x" pelo nome.
+  { id: "p01", nome: "Nº 1", foto: "fotos/01.jpg" },
+  { id: "p02", nome: "Nº 2", foto: "fotos/02.jpg" },
+  { id: "p03", nome: "Nº 3", foto: "fotos/03.jpg" },
+  { id: "p04", nome: "Nº 4", foto: "fotos/04.jpg" },
+  { id: "p05", nome: "Nº 5", foto: "fotos/05.jpg" },
+  { id: "p06", nome: "Nº 6", foto: "fotos/06.jpg" },
+  { id: "p07", nome: "Nº 7", foto: "fotos/07.jpg" },
+  { id: "p08", nome: "Nº 8", foto: "fotos/08.jpg" },
+  { id: "p09", nome: "Nº 9", foto: "fotos/09.jpg" },
+  { id: "p10", nome: "Nº 10", foto: "fotos/10.jpg" },
+  { id: "p11", nome: "Nº 11", foto: "fotos/11.jpg" },
+  { id: "p13", nome: "Nº 13", foto: "fotos/13.jpg" },
+  { id: "p17", nome: "Nº 17", foto: "fotos/17.jpg" },
+  { id: "p18", nome: "Nº 18", foto: "fotos/18.jpg" },
+  { id: "p21", nome: "Nº 21", foto: "fotos/21.jpg" },
+  { id: "p22", nome: "Pr. Valdemiro", foto: "fotos/22.jpg" },
+  { id: "p23", nome: "Victor Fontana", foto: "fotos/23.jpg" },
+  { id: "p24", nome: "Pedro Pamplona", foto: "fotos/24.jpg" },
+  { id: "p25", nome: "Paulo Junior", foto: "fotos/25.jpg" },
+  { id: "p26", nome: "Heber Campos Jr.", foto: "fotos/26.jpg" },
+  { id: "p27", nome: "Filipe Fontes", foto: "fotos/27.jpg" },
+  { id: "p28", nome: "Sezar Cavalcante", foto: "fotos/28.jpg" },
+  { id: "p29", nome: "Carlos Vailatti", foto: "fotos/29.jpg" },
+  { id: "p30", nome: "Franklin Ferreira", foto: "fotos/30.jpg" },
+  { id: "p31", nome: "Caio Fábio", foto: "fotos/31.jpg" },
+  { id: "p32", nome: "Teófilo Hayashi", foto: "fotos/32.jpg" },
+  { id: "p33", nome: "Douglas Gonçalves", foto: "fotos/33.jpg" },
+  { id: "p34", nome: "Marcos Granconato", foto: "fotos/34.jpg" },
+  { id: "p35", nome: "Jeferson Santana", foto: "fotos/35.jpg" },
+];
+
+const TIERS = [
+  { id: "S", cor: "var(--s)" }, { id: "A", cor: "var(--a)" }, { id: "B", cor: "var(--b)" },
+  { id: "C", cor: "var(--c)" }, { id: "D", cor: "var(--d)" }, { id: "F", cor: "var(--f)" },
+];
+const KEY = "tierlist-pastores-v1";
+
+function pid(p) { return p.id || slug(p.nome); }
+function slug(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+function iniciais(n) {
+  const p = n.replace(/^(pr|pra|rev|bispo|ap|apóstolo|pastor|pastora)\.?\s+/i, "").split(/\s+/).filter((w, i, a) => w && (a.length < 3 || !/^(jr\.?|j[uú]nior|filho|neto)$/i.test(w)));
+  return ((p[0]?.[0] || "") + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+}
+
+function estadoInicial() {
+  const s = { labels: {}, pos: {}, extras: [], removidos: [] };
+  TIERS.forEach(t => s.labels[t.id] = t.id);
+  return s;
+}
+let estado = estadoInicial();
+try { const salvo = JSON.parse(localStorage.getItem(KEY)); if (salvo) estado = Object.assign(estadoInicial(), salvo); } catch (e) {}
+function salvar() { try { localStorage.setItem(KEY, JSON.stringify(estado)); } catch (e) {} }
+
+function todos() {
+  const lista = [...PASTORES, ...estado.extras];
+  const vistos = new Set();
+  return lista.filter(p => { const id = pid(p); if (vistos.has(id) || estado.removidos.includes(id)) return false; vistos.add(id); return true; });
+}
+
+const board = document.getElementById("board"), pool = document.getElementById("pool");
+let selecionado = null;
+
+function chip(p) {
+  const el = document.createElement("div");
+  el.className = "chip"; el.draggable = true; el.dataset.id = pid(p); el.tabIndex = 0;
+  const av = document.createElement("div"); av.className = "av";
+  if (p.foto) { const img = new Image(); img.src = p.foto; img.alt = ""; img.onerror = () => { av.textContent = iniciais(p.nome); }; av.append(img); }
+  else av.textContent = iniciais(p.nome);
+  const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = p.nome;
+  el.append(av, nm);
+  el.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", el.dataset.id); el.classList.add("dragging"); });
+  el.addEventListener("dragend", () => el.classList.remove("dragging"));
+  el.addEventListener("click", e => { e.stopPropagation(); selecionar(el); });
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selecionar(el); } });
+  el.addEventListener("dblclick", () => remover(el.dataset.id));
+  return el;
+}
+
+function selecionar(el) {
+  if (selecionado === el) { el.classList.remove("sel"); selecionado = null; marcarAlvos(false); return; }
+  selecionado?.classList.remove("sel");
+  selecionado = el; el.classList.add("sel"); marcarAlvos(true);
+}
+function marcarAlvos(on) { document.querySelectorAll(".drop").forEach(d => d.classList.toggle("target", on)); }
+
+function mover(id, destino) {
+  if (destino === "pool") delete estado.pos[id]; else estado.pos[id] = destino;
+  salvar(); render();
+}
+function remover(id) {
+  estado.extras = estado.extras.filter(p => pid(p) !== id);
+  if (PASTORES.some(p => pid(p) === id)) estado.removidos.push(id);
+  delete estado.pos[id]; salvar(); render();
+}
+
+function prepararDrop(el, destino) {
+  el.addEventListener("dragover", e => { e.preventDefault(); el.classList.add("over"); });
+  el.addEventListener("dragleave", () => el.classList.remove("over"));
+  el.addEventListener("drop", e => { e.preventDefault(); el.classList.remove("over"); mover(e.dataTransfer.getData("text/plain"), destino); });
+  el.addEventListener("click", () => { if (selecionado) { const id = selecionado.dataset.id; selecionado = null; marcarAlvos(false); mover(id, destino); } });
+}
+
+function render() {
+  board.innerHTML = ""; pool.innerHTML = "";
+  const pessoas = todos();
+  TIERS.forEach(t => {
+    const row = document.createElement("div"); row.className = "tier";
+    const lab = document.createElement("div"); lab.className = "label"; lab.style.background = t.cor;
+    lab.contentEditable = "true"; lab.spellcheck = false; lab.textContent = estado.labels[t.id];
+    lab.addEventListener("input", () => { estado.labels[t.id] = lab.textContent.trim() || t.id; salvar(); });
+    const drop = document.createElement("div"); drop.className = "drop";
+    prepararDrop(drop, t.id);
+    pessoas.filter(p => estado.pos[pid(p)] === t.id).forEach(p => drop.append(chip(p)));
+    row.append(lab, drop); board.append(row);
+  });
+  const soltos = pessoas.filter(p => !TIERS.some(t => t.id === estado.pos[pid(p)]));
+  soltos.forEach(p => pool.append(chip(p)));
+  if (!pessoas.length) pool.innerHTML = '<div class="empty">Nenhum pastor ainda. Adicione pelo campo abaixo.</div>';
+}
+prepararDrop(pool, "pool");
+
+document.getElementById("add").addEventListener("submit", e => {
+  e.preventDefault();
+  const inp = document.getElementById("novo"), nome = inp.value.trim();
+  if (!nome) return;
+  const id = slug(nome);
+  estado.removidos = estado.removidos.filter(r => r !== id);
+  if (!todos().some(p => pid(p) === id)) estado.extras.push({ nome });
+  inp.value = ""; salvar(); render();
+});
+
+document.getElementById("btn-reset").addEventListener("click", function () {
+  if (this.dataset.confirm) { estado = estadoInicial(); salvar(); render(); this.textContent = "Recomeçar"; delete this.dataset.confirm; return; }
+  this.dataset.confirm = "1"; this.textContent = "Confirmar: apagar tudo?";
+  setTimeout(() => { this.textContent = "Recomeçar"; delete this.dataset.confirm; }, 4000);
+});
+
+document.getElementById("btn-png").addEventListener("click", async () => {
+  if (!window.html2canvas) return;
+  const bg = getComputedStyle(document.body).backgroundColor;
+  const canvas = await html2canvas(board, { backgroundColor: bg, scale: 2, useCORS: true });
+  const a = document.createElement("a"); a.download = "tierlist-pastores.png"; a.href = canvas.toDataURL("image/png"); a.click();
+});
+
+render();
+</script>
+</body>
+</html>
