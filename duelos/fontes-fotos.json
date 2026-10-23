@@ -1,0 +1,243 @@
+[
+  {
+    "id": "john-piper",
+    "nome": "John Piper",
+    "pagina": "https://tctnetwork.org/resource/2019/09/04/tct-national-call-with-john-piper",
+    "imagem": "https://images.squarespace-cdn.com/content/v1/59551b6329687f447fb1987b/1567696658448-IZTQM1C43DB8PR99D5PP/pastorjohn.jpg"
+  },
+  {
+    "id": "john-macarthur",
+    "nome": "John MacArthur",
+    "pagina": "https://answersingenesis.org/bios/john-macarthur/",
+    "imagem": "https://assets.answersingenesis.org/img/cms/content/contentnode/image/bios/john-macarthur.jpg"
+  },
+  {
+    "id": "paul-washer",
+    "nome": "Paul Washer",
+    "pagina": "https://heartcrymissionary.com/press-kit/",
+    "imagem": "https://heartcrymissionary.com/wp-content/uploads/2023/04/Digital-Press-Kit.zip",
+    "observacao": "Retrato extraído do press kit oficial."
+  },
+  {
+    "id": "tim-keller",
+    "nome": "Tim Keller",
+    "pagina": "https://redeemercitytocity.com/together-for-the-city",
+    "imagem": "https://images.squarespace-cdn.com/content/v1/5d44636cd5f86700012df925/1568852596958-9L96I8CMRRFDRWOTXDMZ/tim-keller.jpg"
+  },
+  {
+    "id": "r-c-sproul",
+    "nome": "R. C. Sproul",
+    "pagina": "https://learn.ligonier.org/series/the-parables-of-jesus",
+    "imagem": "https://images.ctfassets.net/ukqj0ybhazqg/sproul_rc-web.jpg/32666e3b2f03278bf33524d68bba9b79/3438x3438_Sproul_RC.jpg?fit=fill&fm=jpg&w=600"
+  },
+  {
+    "id": "tim-chester",
+    "nome": "Tim Chester",
+    "pagina": "https://learn.ligonier.org/teachers/tim-chester",
+    "imagem": "https://images.ctfassets.net/ukqj0ybhazqg/14xnGIj2Q6cx9OdYzgMafJ/8cb8a0236179ebed3b5d0d7182a3eb49/3438x3438_chester_tim.jpg?fit=fill&w=600"
+  },
+  {
+    "id": "d-a-carson",
+    "nome": "D. A. Carson",
+    "pagina": "https://learn.ligonier.org/teachers/donald-carson",
+    "imagem": "https://images.ctfassets.net/ukqj0ybhazqg/carson_donald.jpg/a028487e7befccb95f64b1975491e656/3438x3438_Carson_DA.jpg?fit=fill&fm=jpg&w=600"
+  },
+  {
+    "id": "john-stott",
+    "nome": "John Stott",
+    "pagina": "https://johnstott.org/events/proclaiming-the-gospel-of-god-through-evangelism-sermon-series/",
+    "imagem": "https://johnstott.org/wp-content/uploads/2021/03/John-Stott_copy.jpg",
+    "recorte": [
+      400,
+      5,
+      635,
+      240
+    ]
+  },
+  {
+    "id": "wayne-grudem",
+    "nome": "Wayne Grudem",
+    "pagina": "https://www.shepherds360.org/speakers/wayne-grudem",
+    "imagem": "https://www.shepherds360.org/hs-fs/hubfs/Wayne%20Grudem0340%201.jpeg?width=600"
+  },
+  {
+    "id": "james-k-a-smith",
+    "nome": "James K. A. Smith",
+    "pagina": "https://christianscholarsconference.org/speakers/james-k-a-smith/",
+    "imagem": "https://christianscholarsconference.org/content/uploads/2023/02/James-KA-Smith-square.jpg"
+  },
+  {
+    "id": "mark-driscoll",
+    "nome": "Mark Driscoll",
+    "pagina": "https://www.christiantoday.com/article/mars.hill.announces.closure.of.three.churches/40422.htm",
+    "imagem": "https://www.christiantoday.com/media/original/thumbnail/4/04/40422.jpg"
+  },
+  {
+    "id": "mark-dever",
+    "nome": "Mark Dever",
+    "pagina": "https://learn.ligonier.org/teachers/mark-dever",
+    "imagem": "https://images.ctfassets.net/ukqj0ybhazqg/dever_mark.jpg/10aacaef4d5d3965a17885a905475dfb/3438x3438_Dever_Mark.jpg?fit=fill&w=600"
+  },
+  {
+    "id": "kevin-vanhoozer",
+    "nome": "Kevin Vanhoozer",
+    "pagina": "https://www.ust.ac.uk/phd-supervisors",
+    "imagem": "https://images.squarespace-cdn.com/content/v1/5f7b3fadca218f3877dfc61d/e183c2d0-3188-4a07-8bb2-9a1637d20103/vanhoozer-6.jpg?format=500w"
+  },
+  {
+    "id": "kevin-deyoung",
+    "nome": "Kevin DeYoung",
+    "pagina": "https://x.com/RevKevDeYoung",
+    "imagem": "https://pbs.twimg.com/profile_images/1968385329036935168/xa_HZflj_400x400.jpg"
+  },
+  {
+    "id": "joel-beeke",
+    "nome": "Joel Beeke",
+    "pagina": "https://answersingenesis.org/bios/joel-beeke/",
+    "imagem": "https://assets.answersingenesis.org/img/cms/content/contentnode/image/bios/joel-beeke-2023.jpg"
+  },
+  {
+    "id": "n-t-wright",
+    "nome": "N. T. Wright",
+    "pagina": "https://www.jordanraynor.com/podcast/",
+    "imagem": "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2156770877/settings_images/acf3c8b-18c-2fc5-5d1-dbdc7c6a0c6_nt_wright.jpeg"
+  },
+  {
+    "id": "renato-vargens",
+    "nome": "Renato Vargens",
+    "pagina": "https://noticias.gospelmais.com/pastor-renato-vargens-igrejas-blocos-carnaval-108277.html",
+    "imagem": "https://noticias.gospelmais.com/files/2019/02/images_7285b45fa10965073b79b3fffcc1a6e3.jpg"
+  },
+  {
+    "id": "leandro-lima",
+    "nome": "Leandro Lima",
+    "pagina": "https://soundcloud.com/primeiraipbh/sets/rev-leandro-lima-serie-apocalipse",
+    "imagem": "https://i1.sndcdn.com/artworks-000152158661-um7iay-t500x500.jpg",
+    "recorte": [
+      60,
+      30,
+      330,
+      300
+    ]
+  },
+  {
+    "id": "emilio-garofalo-neto",
+    "nome": "Emílio Garófalo Neto",
+    "pagina": "https://ministeriofiel.com.br/pastores/2020/EmilioGarofalo.html",
+    "imagem": "https://ministeriofiel.com.br/pastores/2020/upload/speakers/sp4%402x.jpg"
+  },
+  {
+    "id": "mauro-meister",
+    "nome": "Mauro Meister",
+    "pagina": "https://cpaj.mackenzie.br/quem-somos/professores/mauro-fernando-meister",
+    "imagem": "https://cpaj.mackenzie.br/fileadmin/_processed_/3/1/csm_Mauro_-_f1_16da821009.jpg"
+  },
+  {
+    "id": "davi-charles-gomes",
+    "nome": "Davi Charles Gomes",
+    "pagina": "https://ibdr-teste-site.squarespace.com/",
+    "imagem": "https://images.squarespace-cdn.com/content/v1/5bfc81e6266c07c8f534faa3/1560474250651-MSZQCYKRPWB981PG8MTD/9.%2BDavi%2BCharles%2BGomes%2B%28Presidente%2Bdo%2BConselho%29%2Bcopy2.jpg"
+  },
+  {
+    "id": "agenor-duque",
+    "nome": "Agenor Duque",
+    "pagina": "https://noticias.gospelmais.com/tag/apostolo-agenor-duque",
+    "imagem": "https://noticias.gospelmais.com/files/2017/06/agenor-duque.jpg"
+  },
+  {
+    "id": "r-r-soares",
+    "nome": "R. R. Soares",
+    "pagina": "https://blogs.oglobo.globo.com/ancelmo/post/missionario-rr-soares-esta-internado-com-covid-19.html",
+    "imagem": "https://s2.glbimg.com/78-egyxN_zWbbQxCLzt5EA4l-z8%3D/i.glbimg.com/og/ig/infoglobo1/f/original/2021/06/04/80183003.jpg"
+  },
+  {
+    "id": "filipe-niel",
+    "nome": "Filipe Niel",
+    "pagina": "https://www.batistavidanova.org/quem-somos",
+    "imagem": "https://static.wixstatic.com/media/1433ee_cc74ec84cdbf4a5395bf742c0c9ab4e9~mv2_d_4496_3000_s_4_2.jpg",
+    "recorte": [
+      245,
+      65,
+      425,
+      245
+    ]
+  },
+  {
+    "id": "ingrid-duque",
+    "nome": "Ingrid Duque",
+    "pagina": "https://open.spotify.com/show/0tcn3Rt8oQkPHjqB5YZWgS",
+    "imagem": "https://i.scdn.co/image/ab6765630000ba8aaf1cfb068d703dcac80d14f7"
+  },
+  {
+    "id": "rene-terra-nova",
+    "nome": "Renê Terra Nova",
+    "pagina": "https://www.mironline.com.br/post/feliz-anivers%C3%A1rio-ap%C3%B3stolo-ren%C3%AA-terra-nova",
+    "imagem": "https://static.wixstatic.com/media/680587_069ed2f442134981a5d6a1e96efce868~mv2.jpg",
+    "recorte": [
+      175,
+      20,
+      365,
+      210
+    ]
+  },
+  {
+    "id": "ricardo-gondim",
+    "nome": "Ricardo Gondim",
+    "pagina": "https://noticias.gospelmais.com/betesda-igreja-inclusiva-lgbts-ricardo-gondim-156175.html",
+    "imagem": "https://noticias.gospelmais.com/files/2022/07/pastor-ricardo-gondim.jpg",
+    "recorte": [
+      260,
+      30,
+      475,
+      245
+    ]
+  },
+  {
+    "id": "henrique-vieira",
+    "nome": "Henrique Vieira",
+    "pagina": "https://www.lemonde.fr/en/m-le-mag/article/2023/07/21/henrique-vieira-evangelical-pastor-radical-left-wing-mp_6062305_117.html",
+    "imagem": "https://img.lemde.fr/2023/07/17/0/0/1500/1140/1112/0/75/0/2e1ab75_295305-3330353.jpg"
+  },
+  {
+    "id": "ariovaldo-ramos",
+    "nome": "Ariovaldo Ramos",
+    "pagina": "https://www.anf.org.br/entrevista-com-o-pr-ariovaldo-ramos-a-igreja-evangelica-esta-dividida/",
+    "imagem": "https://www.anf.org.br/wp-content/uploads/2018/11/ariovaldo-696x435-696x435.jpg"
+  },
+  {
+    "id": "tiago-brunet",
+    "nome": "Tiago Brunet",
+    "pagina": "https://buzzeditora.com/autores/tiago-brunet/",
+    "imagem": "https://storage.googleapis.com/store.buzzeditora.com.br/2024/09/f294ed7c-autor_tiago-brunet.jpg"
+  },
+  {
+    "id": "victor-azevedo",
+    "nome": "Victor Azevedo",
+    "pagina": "https://pleno.news/fe/victor-azevedo-defende-rene-kivitz-em-atualizacao-da-biblia.html",
+    "imagem": "https://static.cdn.pleno.news/2020/01/Victor-Azevedo-1-2-1024x683.jpg"
+  },
+  {
+    "id": "marcio-poncio",
+    "nome": "Márcio Poncio",
+    "pagina": "https://portalleodias.com/noticias/pastor-marcio-poncio-deixa-penitenciaria-apos-ter-prisao-convertida-em-domiciliar",
+    "imagem": "https://assets.portalleodias.com/2024/04/kI114ENX-Padrao-para-Portal-LeoDias.jpg"
+  },
+  {
+    "id": "apostola-sol",
+    "nome": "Apóstola Sol",
+    "pagina": "https://rededocoracao.com.br/locutores",
+    "imagem": "https://websitenoar.net/contents/77/avatar/user_1382315802.jpg",
+    "recorte": [
+      85,
+      15,
+      195,
+      125
+    ]
+  },
+  {
+    "id": "sergio-lima",
+    "nome": "Sérgio Lima",
+    "pagina": "https://www.seminariojmc.br/",
+    "imagem": "https://www.seminariojmc.br/wp-content/uploads/2024/08/Design-sem-nome-30.png"
+  }
+]

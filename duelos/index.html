@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Duelos · Mata-mata dos Pregadores</title>
+  <meta name="description" content="Escolha seus favoritos em quatro mata-matas: pregadores brasileiros, teólogos internacionais, históricos e dos hereges. Monte e compartilhe sua chave.">
+  <meta property="og:title" content="Mata-mata dos Pregadores">
+  <meta property="og:description" content="16 nomes. Você decide o pódio. Escolha seus favoritos e compartilhe com os amigos.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://matheusgregorio.github.io/tierlist-pastores/capa.jpg">
+  <meta name="theme-color" content="#f3f1ee">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Figtree:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try { const tema = localStorage.getItem('tierlist-tema'); if (tema === 'light' || tema === 'dark') document.documentElement.dataset.theme = tema; } catch {}
+  </script>
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="topo">
+      <a class="marca" href="../">TIER LIST <span>/ DUELOS</span></a>
+      <nav aria-label="Navegação principal">
+        <a href="../">Pastores</a>
+        <a href="../historia/">Teólogos da História</a>
+        <button id="tema" class="icone" type="button" aria-label="Trocar tema">◐</button>
+      </nav>
+    </header>
+
+    <section class="intro" aria-labelledby="titulo">
+      <p class="eyebrow">VOCÊ ESCOLHE QUEM AVANÇA</p>
+      <h1 id="titulo">Mata-mata<span>dos pregadores.</span></h1>
+      <p class="sub">Dois nomes. Uma escolha. Quem chega ao seu pódio?</p>
+      <div class="paleta" aria-hidden="true"><i style="--cor:var(--s)"></i><i style="--cor:var(--a)"></i><i style="--cor:var(--b)"></i><i style="--cor:var(--c)"></i><i style="--cor:var(--d)"></i><i style="--cor:var(--f)"></i></div>
+    </section>
+
+    <nav id="categorias" class="categorias" aria-label="Categorias de duelos"></nav>
+
+    <section class="arena" aria-labelledby="categoria-titulo">
+      <div class="arena-topo">
+        <div><p id="fase" class="eyebrow"></p><h2 id="categoria-titulo"></h2></div>
+        <span id="contagem" class="contagem"></span>
+      </div>
+      <progress id="progresso" max="16" value="0" aria-label="Duelos concluídos"></progress>
+      <div id="disputa" class="disputa">
+        <p id="pergunta" class="pergunta"></p>
+        <div id="oponentes" class="oponentes"></div>
+        <p class="hint instrucao">Toque em um nome para avançar. A decisão é sua.</p>
+      </div>
+      <div id="resultado" class="resultado" hidden></div>
+      <div class="ferramentas">
+        <div class="btns"><button id="voltar" type="button">← Desfazer escolha</button><button id="sortear" type="button">Sortear confrontos</button><button id="reiniciar" type="button">Recomeçar</button></div>
+        <button id="compartilhar" type="button" class="primary" hidden>Compartilhar resultado ↗</button>
+      </div>
+      <p id="aviso" class="hint" role="status"></p>
+    </section>
+
+    <details class="chave-secao">
+      <summary>Ver meu chaveamento <span aria-hidden="true">↓</span></summary>
+      <div class="secao-topo"><h2 id="chave-titulo">O caminho até o pódio</h2><p class="hint">Deslize para os lados →</p></div>
+      <div class="chave-scroll" tabindex="0" role="region" aria-label="Chaveamento completo, com rolagem horizontal"><div id="chave" class="chave"></div></div>
+    </details>
+    <footer>Suas escolhas ficam salvas neste navegador. <a href="../">Voltar para as tier lists →</a></footer>
+    <noscript><p>Ative o JavaScript para jogar os duelos.</p></noscript>
+  </main>
+
+  <dialog id="confirmacao" aria-labelledby="confirmacao-titulo">
+    <form method="dialog" class="dialog-conteudo">
+      <h2 id="confirmacao-titulo"></h2><p id="confirmacao-texto" class="sub"></p>
+      <div class="btns dialog-acoes"><button value="cancelar" autofocus>Cancelar</button><button value="confirmar" class="primary">Continuar</button></div>
+    </form>
+  </dialog>
+  <dialog id="exportacao" aria-labelledby="exportacao-titulo">
+    <div class="exportacao-topo"><h2 id="exportacao-titulo">Seu pódio e chaveamento</h2><button id="fechar-exportacao" type="button" aria-label="Fechar prévia">Fechar</button></div>
+    <div class="previa"><img id="imagem-chave" alt="Pódio com fotos dos três colocados e chaveamento completo do mata-mata"></div>
+    <p id="exportacao-aviso" class="hint" role="status"></p>
+    <div class="btns dialog-acoes"><button id="baixar" type="button">Baixar imagem</button><button id="enviar" type="button" class="primary">Compartilhar</button></div>
+  </dialog>
+</body>
+</html>
