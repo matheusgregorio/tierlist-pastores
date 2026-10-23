@@ -26,18 +26,18 @@
    rótulo colorido à esquerda, fotos quadradas com o nome embaixo. Tema claro e escuro seguem o aparelho. */
 :root {
   --bg: #f3f1ee; --row: #e7e3dd; --surface: #ffffff; --fg: #1d1b19; --muted: #6b655e; --line: #d4cec6;
-  --accent: #1f4e79; --on-accent: #ffffff; --shadow: rgb(29 27 25 / .10);
+  --accent: #1f4e79; --on-accent: #ffffff; --shadow: rgb(29 27 25 / .10); --av-line: rgb(29 27 25 / .10);
   --s: #e5484d; --a: #f08c3a; --b: #e9c43b; --c: #7cbf5a; --d: #4aa3c9; --f: #8b7fd1; --on-tier: #1d1b19;
   --display: "Archivo Black", Impact, "Arial Black", sans-serif;
   --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #151413; --row: #24221f; --surface: #2d2a27; --fg: #f1ede8; --muted: #a69f97; --line: #3b3835;
-  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35);
+  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35); --av-line: rgb(255 255 255 / .16);
   --s: #e0555a; --a: #ec9147; --b: #e2c049; --c: #7fbd60; --d: #52a5c8; --f: #9286d2; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #151413; --row: #24221f; --surface: #2d2a27; --fg: #f1ede8; --muted: #a69f97; --line: #3b3835;
-  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35);
+  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35); --av-line: rgb(255 255 255 / .16);
   --s: #e0555a; --a: #ec9147; --b: #e2c049; --c: #7fbd60; --d: #52a5c8; --f: #9286d2; color-scheme: dark }
 
 * { box-sizing: border-box; }
@@ -47,7 +47,9 @@ body { background: var(--bg); color: var(--fg); font-family: var(--body); font-s
   padding-block: 32px 56px; }
 .wrap { max-width: 1000px; margin: 0 auto; display: grid; gap: 20px; }
 .wrap .wrap { width: 100%; max-width: none; }
-header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; }
+header { position: relative; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; }
+.titulo { padding-right: 52px; }
+#btn-tema { position: absolute; top: 0; right: 0; }
 .eyebrow { font-weight: 700; font-size: 13px; letter-spacing: .3em; color: var(--accent); margin: 0 0 6px; }
 h1 { font-family: var(--display); font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.02; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
 .sub { color: var(--muted); margin: 8px 0 0; }
@@ -70,19 +72,26 @@ button:focus-visible, input:focus-visible, [contenteditable]:focus-visible, .chi
 .tier { display: grid; grid-template-columns: 112px 1fr; min-height: 132px; border-radius: 14px; overflow: hidden; background: var(--row); }
 .label { position: relative; overflow: hidden; }
 .label .txt { position: absolute; inset: 8px; display: flex; align-items: center; justify-content: center;
-  text-align: center; font-family: var(--display); font-size: 26px; line-height: 1.1; color: var(--on-tier);
+  text-align: center; font-family: var(--display); font-size: 44px; line-height: 1.05; color: var(--on-tier);
   overflow-wrap: normal; cursor: text; border-radius: 6px; outline-offset: -2px; }
 .drop { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 10px;
   min-width: 0; transition: background .15s; }
 .drop.over, .drop.target { background: color-mix(in srgb, var(--row), var(--accent) 16%); }
 
-.chip { width: 92px; display: grid; justify-items: center; align-content: start; gap: 6px; padding: 0;
-  border-radius: 10px; cursor: grab; user-select: none; touch-action: manipulation; }
-.chip.sel .av { outline: 3px solid var(--accent); outline-offset: 2px; }
+.chip { position: relative; width: 92px; display: grid; justify-items: center; align-content: start; gap: 6px; padding: 0;
+  border-radius: 10px; cursor: grab; user-select: none; touch-action: manipulation; transition: transform .12s; }
+.chip.sel { transform: scale(1.06); z-index: 1; }
+.chip.sel .av { outline: 3px solid var(--accent); outline-offset: 2px; box-shadow: 0 6px 16px var(--shadow); }
+.tirar { position: absolute; top: -7px; right: -7px; width: 26px; height: 26px; padding: 0; border-radius: 50%;
+  display: none; place-items: center; font: 700 16px/1 var(--body); background: var(--surface); color: var(--fg);
+  border: 1px solid var(--line); box-shadow: 0 1px 4px var(--shadow); }
+.chip.sel .tirar { display: grid; }
+@media (hover: hover) { .chip:hover .tirar { display: grid; } }
+.tirar:hover { background: #e5484d; color: #fff; border-color: #e5484d; }
 .chip.dragging { opacity: .4; }
 .av { width: 100%; aspect-ratio: 1; border-radius: 10px; background: var(--accent); color: var(--on-accent);
   display: grid; place-items: center; font-family: var(--display); font-size: 1.6rem; overflow: hidden;
-  box-shadow: 0 1px 3px var(--shadow); }
+  box-shadow: 0 0 0 1px var(--av-line), 0 1px 3px var(--shadow); }
 .av img { width: 100%; height: 100%; object-fit: cover; }
 .nm { font-size: 12.5px; font-weight: 700; text-align: center; line-height: 1.2; overflow-wrap: break-word; hyphens: auto; }
 
@@ -95,6 +104,12 @@ input { font: 15px var(--body); padding: 9px 12px; border: 1px solid var(--line)
   background: var(--surface); color: var(--fg); flex: 1 1 200px; min-width: 0; }
 input::placeholder { color: var(--muted); }
 .hint { color: var(--muted); font-size: 13px; margin: 0; }
+#desfazer { position: fixed; z-index: 15; left: 50%; transform: translateX(-50%);
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 12px;
+  background: var(--fg); color: var(--bg); padding: 10px 10px 10px 16px; border-radius: 12px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / .25); font-weight: 600; max-width: calc(100% - 32px); }
+#desfazer[hidden] { display: none; }
+#desfazer button { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 40%, transparent); }
 
 #modal { position: fixed; inset: 0; z-index: 20; background: rgb(20 18 16 / .62); display: grid; place-items: center;
   padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
@@ -123,10 +138,10 @@ input::placeholder { color: var(--muted); }
 <body>
 <div class="wrap">
   <header>
-    <div>
+    <div class="titulo">
       <p class="eyebrow">TIER LIST</p>
       <h1>Teólogos da História</h1>
-      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira.</p>
+      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira. Para renomear uma fileira, toque no S, A, B…</p>
       <a class="outra" href="../">Veja também: Pastores Brasileiros →</a>
     </div>
     <div class="btns">
@@ -144,16 +159,17 @@ input::placeholder { color: var(--muted); }
   <section class="wrap" style="gap:10px">
     <div class="pool-head">
       <h2>Teólogos</h2>
-      <p class="hint">Duplo clique num nome para removê-lo.</p>
+      <p class="hint">Para tirar alguém da lista, use o × no cartão.</p>
     </div>
     <div id="pool" class="drop"></div>
     <form id="add">
       <input id="novo" placeholder="Adicionar teólogo (ex.: Karl Barth)" autocomplete="off">
       <button class="primary" type="submit">Adicionar</button>
     </form>
-    <p class="hint">Rótulos das fileiras são editáveis: clique no S, A, B… e escreva o que quiser.</p>
   </section>
 </div>
+
+<div id="desfazer" role="status" hidden><span id="desfazer-txt"></span><button id="btn-desfazer" type="button">Desfazer</button></div>
 
 <div id="modal" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -257,7 +273,10 @@ function chip(p) {
   el.addEventListener("dragend", () => el.classList.remove("dragging"));
   el.addEventListener("click", e => { e.stopPropagation(); selecionar(el); });
   el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selecionar(el); } });
-  el.addEventListener("dblclick", () => remover(el.dataset.id));
+  const x = document.createElement("button"); x.type = "button"; x.className = "tirar"; x.textContent = "×";
+  x.setAttribute("aria-label", "Tirar " + p.nome + " da lista"); x.title = "Tirar da lista";
+  x.addEventListener("click", e => { e.stopPropagation(); remover(el.dataset.id, p.nome); });
+  el.append(x);
   return el;
 }
 
@@ -272,11 +291,21 @@ function mover(id, destino) {
   if (destino === "pool") delete estado.pos[id]; else estado.pos[id] = destino;
   salvar(); render();
 }
-function remover(id) {
+let antesDeRemover = null, desfazerTimer;
+function remover(id, nome) {
+  antesDeRemover = JSON.stringify(estado);
   estado.extras = estado.extras.filter(p => pid(p) !== id);
   if (PASTORES.some(p => pid(p) === id)) estado.removidos.push(id);
-  delete estado.pos[id]; salvar(); render();
+  delete estado.pos[id]; selecionado = null; marcarAlvos(false); salvar(); render();
+  document.getElementById("desfazer-txt").textContent = (nome || "Nome") + " saiu da lista.";
+  const d = document.getElementById("desfazer"); d.hidden = false;
+  clearTimeout(desfazerTimer); desfazerTimer = setTimeout(() => { d.hidden = true; antesDeRemover = null; }, 7000);
 }
+document.getElementById("btn-desfazer").addEventListener("click", () => {
+  if (!antesDeRemover) return;
+  estado = JSON.parse(antesDeRemover); antesDeRemover = null; salvar(); render();
+  document.getElementById("desfazer").hidden = true;
+});
 
 function prepararDrop(el, destino) {
   el.addEventListener("dragover", e => { e.preventDefault(); el.classList.add("over"); });
@@ -288,7 +317,7 @@ function prepararDrop(el, destino) {
 /* Rótulo das fileiras: começa grande e diminui até o texto caber inteiro no quadrado */
 function ajustarRotulo(txt) {
   if (!txt.clientHeight) return;
-  let tam = 26;
+  let tam = matchMedia("(max-width: 520px)").matches ? 32 : 44;
   txt.style.fontSize = tam + "px";
   while (tam > 10 && (txt.scrollHeight > txt.clientHeight + 1 || txt.scrollWidth > txt.clientWidth + 1)) {
     tam -= 1; txt.style.fontSize = tam + "px";
@@ -308,6 +337,8 @@ function render() {
     txt.contentEditable = "true"; txt.spellcheck = false; txt.textContent = estado.labels[t.id];
     txt.setAttribute("aria-label", "Nome da fileira");
     txt.addEventListener("input", () => { estado.labels[t.id] = txt.textContent.trim() || t.id; ajustarRotulo(txt); salvar(); });
+    txt.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); txt.blur(); } });
+    txt.addEventListener("paste", e => { e.preventDefault(); document.execCommand("insertText", false, (e.clipboardData.getData("text/plain") || "").replace(/\s+/g, " ")); });
     txt.addEventListener("blur", () => { if (!txt.textContent.trim()) { txt.textContent = t.id; ajustarRotulo(txt); } });
     lab.append(txt);
     const drop = document.createElement("div"); drop.className = "drop";
