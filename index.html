@@ -358,9 +358,17 @@ function quebrar(ctx, texto, larg) {
   if (atual) linhas.push(atual);
   return linhas;
 }
+// Retângulo de cantos arredondados desenhado com linhas e curvas simples
+// (o arcTo gerava formas erradas no Safari/iPhone).
 function retArredondado(ctx, x, y, w, h, r) {
-  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  r = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
 }
 
 async function gerarImagem() {
@@ -390,6 +398,7 @@ async function gerarImagem() {
   let k = 1, L = medir(k);
   while (L.H > H_MAX && k > .4) { k -= .02; L = medir(k); }
   const { foto: FOTO, cell: CELL, gapX: GAPX, rowPad: ROWPAD, nomeFonte, celH, porLinha, alturas, H } = L;
+  const RAIO = Math.max(8, Math.round(14 * k)); // canto arredondado das fotos (fixo para todas)
   const escala = 2;
   const cv = document.createElement("canvas"); cv.width = IMG.W * escala; cv.height = H * escala;
   const ctx = cv.getContext("2d"); ctx.scale(escala, escala);
@@ -423,7 +432,7 @@ async function gerarImagem() {
       const col = k % porLinha, lin = Math.floor(k / porLinha);
       const cx = areaX + ROWPAD + col * (CELL + GAPX), cy = y + ROWPAD + lin * celH;
       const fx = cx + (CELL - FOTO) / 2;
-      ctx.save(); retArredondado(ctx, fx, cy, FOTO, FOTO, Math.max(8, Math.round(14 * k))); ctx.clip();
+      ctx.save(); retArredondado(ctx, fx, cy, FOTO, FOTO, RAIO); ctx.clip();
       const im = fotos.get(pid(p));
       if (im) {
         const s = Math.max(FOTO / im.width, FOTO / im.height), w = im.width * s, hh = im.height * s;
@@ -433,7 +442,7 @@ async function gerarImagem() {
         ctx.fillStyle = "#f3f1ee"; ctx.font = `${Math.round(FOTO * .32)}px ${DISPLAY}`; ctx.fillText(iniciais(p.nome), fx + FOTO / 2, cy + FOTO / 2);
       }
       ctx.restore();
-      retArredondado(ctx, fx + .5, cy + .5, FOTO - 1, FOTO - 1, Math.max(8, Math.round(14 * k)));
+      retArredondado(ctx, fx + .5, cy + .5, FOTO - 1, FOTO - 1, RAIO);
       ctx.strokeStyle = "rgba(29, 27, 25, .16)"; ctx.lineWidth = 1; ctx.stroke();
       ctx.fillStyle = "#1d1b19"; ctx.font = `700 ${nomeFonte}px ${BODY}`; ctx.textBaseline = "top";
       quebrar(ctx, p.nome, CELL + Math.round(GAPX * .4)).slice(0, 2).forEach((l, n) => ctx.fillText(l, cx + CELL / 2, cy + FOTO + 6 + n * Math.round(nomeFonte * 1.18)));
