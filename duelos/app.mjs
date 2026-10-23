@@ -1,5 +1,6 @@
 import { CATEGORIAS, FASES, novoTorneio, chave, escolher, restaurarCategoria, sortear } from './torneio.mjs';
 import { compartilharResultado } from './share.mjs';
+import { ativo, podioDe, enviarPodio, buscarRanking } from './ranking.mjs';
 
 const $ = id => document.getElementById(id);
 const STORAGE = 'tierlist-duelos-v1';
@@ -87,10 +88,56 @@ function render() {
     focoPendente = false;
     (concluido ? $('resultado').querySelector('h3') : $('oponentes').querySelector('button')).focus({ preventScroll: true });
   }
+  if (concluido) registrarPodio(info);
   // Deixa a foto da próxima dupla pronta antes da próxima escolha.
   const prox = info.rodadas[info.fase]?.slice((info.jogo + 1) * 2, (info.jogo + 2) * 2) || [];
   prox.forEach(id => { const p = categoria.pessoas[id]; if (p?.foto) { const img = new Image(); img.src = p.foto; } });
 }
+/* ===== Ranking geral =====
+   Cada torneio concluído manda seu pódio uma única vez (até recomeçar ou sortear de novo). */
+const ENVIADOS = 'tierlist-duelos-enviados';
+function lerEnviados() { try { return JSON.parse(localStorage.getItem(ENVIADOS)) || {}; } catch { return {}; } }
+function marcarEnviado(id, valor) {
+  const e = lerEnviados(); if (valor) e[id] = valor; else delete e[id];
+  try { localStorage.setItem(ENVIADOS, JSON.stringify(e)); } catch {}
+}
+async function registrarPodio(info) {
+  if (!ativo()) return;
+  const cat = categoria, versao = cat.versao || 1;
+  if (lerEnviados()[cat.id] === versao) return;
+  marcarEnviado(cat.id, versao);
+  try { if (await enviarPodio(podioDe(cat, info))) { if (cat === categoria) atualizarRanking(); } else marcarEnviado(cat.id, null); }
+  catch { marcarEnviado(cat.id, null); }
+}
+let rankingPedido = 0;
+async function atualizarRanking() {
+  if (!ativo()) return;
+  const cat = categoria, pedido = ++rankingPedido;
+  $('ranking').hidden = false;
+  $('ranking-aviso').textContent = 'Carregando ranking…';
+  try {
+    const r = await buscarRanking(cat.id);
+    if (pedido !== rankingPedido) return;
+    $('ranking-sub').textContent = r.torneios
+      ? `${r.torneios} ${r.torneios === 1 ? 'pódio registrado' : 'pódios registrados'} em ${cat.titulo.toLowerCase()}, somando todo mundo que terminou os duelos.`
+      : '';
+    $('ranking-aviso').textContent = r.linhas.length ? '' : 'Ainda não há resultados nesta categoria. Termine os duelos e seja o primeiro.';
+    $('ranking-lista').replaceChildren(...r.linhas.slice(0, 10).map((l, i) => {
+      const li = elemento('li');
+      const p = cat.pessoas.find(x => x.nome === l.nome) || { nome: l.nome };
+      const med = elemento('span', 'medalhas');
+      [['ouro', l.ouro, '1º lugar'], ['prata', l.prata, '2º lugar'], ['bronze', l.bronze, '3º lugar']].forEach(([k, n, rot]) => {
+        const m = elemento('span', `medalha ${k}${n ? '' : ' zero'}`, String(n)); m.title = `${n}× ${rot}`; m.setAttribute('aria-label', `${n} vezes em ${rot}`); med.append(m);
+      });
+      li.append(elemento('span', 'pos', `${i + 1}º`), retrato(p), elemento('span', 'nome', l.nome), med);
+      return li;
+    }));
+  } catch {
+    if (pedido !== rankingPedido) return;
+    $('ranking-aviso').textContent = 'Não foi possível carregar o ranking agora. Tente de novo mais tarde.';
+  }
+}
+
 function renderChave(info) {
   const root = $('chave'); root.replaceChildren();
   for (let fase = 0; fase < 5; fase++) {
@@ -132,6 +179,7 @@ function selecionarCategoria() {
   document.documentElement.style.setProperty('--category', categoria.cor);
   $('aviso').textContent = '';
   render();
+  atualizarRanking();
 }
 window.addEventListener('hashchange', selecionarCategoria);
 selecionarCategoria();
@@ -139,6 +187,7 @@ $('voltar').addEventListener('click', () => { atual().escolhas.pop(); salvar(); 
 function confirmar(tipo) {
   const executar = () => {
     torneios[categoria.id] = tipo === 'sortear' ? sortear(Math.random, categoria) : novoTorneio();
+    marcarEnviado(categoria.id, null);
     salvar(); render();
     $('aviso').textContent = tipo === 'sortear' ? 'Novos confrontos sorteados. Pode começar!' : 'Confrontos originais restaurados.';
   };

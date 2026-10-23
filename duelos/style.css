@@ -125,3 +125,21 @@ dialog::backdrop { background:rgb(20 18 16/.65); }
   .secao-topo { align-items:start; flex-direction:column; gap:8px; }
 }
 @media(prefers-reduced-motion:reduce) { * { transition:none !important; } }
+
+/* Ranking geral */
+.ranking { margin-top:36px; padding-top:24px; border-top:1px solid var(--line); }
+.ranking h2 { font:1.5rem/1.1 var(--display); margin:0 0 6px; }
+.ranking-lista { list-style:none; margin:16px 0 0; padding:0; display:grid; gap:6px; }
+.ranking-lista li { display:grid; grid-template-columns:28px 44px minmax(0,1fr) auto; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:12px; background:var(--row); }
+.ranking-lista .pos { font:1rem var(--display); color:var(--muted); text-align:center; font-variant-numeric:tabular-nums; }
+.ranking-lista li:nth-child(-n+3) .pos { color:var(--fg); }
+.ranking-lista .retrato { width:44px; border-radius:8px; font-size:1rem; outline:none; margin:0; }
+.ranking-lista .nome { font-weight:700; min-width:0; overflow-wrap:anywhere; }
+.medalhas { display:flex; gap:6px; }
+.medalha { min-width:34px; padding:3px 7px; border-radius:999px; font:800 12px var(--body); text-align:center;
+  color:#1d1b19; font-variant-numeric:tabular-nums; }
+.medalha.ouro { background:#e9c43b; } .medalha.prata { background:#c9ccd1; } .medalha.bronze { background:#d79a63; }
+.medalha.zero { opacity:.35; }
+.legenda { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.legenda .medalha { min-width:0; }

@@ -14,6 +14,16 @@ O botão Compartilhar envia a imagem e uma mensagem com o link da categoria para
 
 Para verificar o torneio, os arquivos de fotos e o compartilhamento, execute `node --test duelos/*.test.mjs`.
 
+### Ranking geral (Supabase)
+
+Cada torneio concluído envia seu pódio (1º, 2º e 3º) uma vez para um banco no Supabase, e a seção "Quem mais pega pódio" mostra o quadro de medalhas somando todo mundo. Para ligar:
+
+1. Crie um projeto gratuito em supabase.com.
+2. No **SQL Editor**, rode o conteúdo de `duelos/supabase.sql` (cria a tabela, as regras de acesso e as visões do ranking).
+3. Em **Project Settings → API**, copie a *Project URL* e a chave *publishable* (ou *anon*) e coloque em `duelos/ranking.mjs`, em `SUPABASE.URL` e `SUPABASE.CHAVE`.
+
+Sem esses dois valores, o ranking fica desligado e os duelos funcionam como antes. A chave pública só permite registrar pódios e ler os totais; não dá para ler, alterar ou apagar os registros individuais.
+
 ## Como editar a lista
 
 Os pastores estão no início do `<script>` em `index.html`, na constante `PASTORES`:
