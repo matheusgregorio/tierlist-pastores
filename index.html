@@ -58,6 +58,10 @@ button:hover { border-color: var(--accent); }
 button:active { transform: translateY(1px); }
 button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 button:disabled { opacity: .6; cursor: progress; }
+button.icone { padding: 0; width: 40px; height: 40px; display: inline-grid; place-items: center; }
+button.icone svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+button.icone .lua { fill: currentColor; stroke: none; }
+:root[data-tema-efetivo="dark"] button.icone .lua, :root:not([data-tema-efetivo="dark"]) button.icone .sol { display: none; }
 button:focus-visible, input:focus-visible, [contenteditable]:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 #board { display: grid; gap: 8px; }
@@ -110,6 +114,9 @@ input::placeholder { color: var(--muted); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
+<script>
+  try { const t = localStorage.getItem("tierlist-tema"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -122,6 +129,10 @@ input::placeholder { color: var(--muted); }
     <div class="btns">
       <button id="btn-share" class="primary">Compartilhar com os amigos</button>
       <button id="btn-reset">Recomeçar</button>
+      <button id="btn-tema" class="icone" type="button" aria-label="Trocar tema">
+        <svg class="sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+        <svg class="lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
     </div>
   </header>
 
@@ -464,6 +475,26 @@ btnBaixar.addEventListener("click", () => {
   const a = document.createElement("a"); a.download = arquivo.name; a.href = modalImg.src;
   document.body.append(a); a.click(); a.remove();
 });
+
+/* ===== Tema claro / escuro =====
+   Padrão: o do aparelho. O botão troca para o outro modo e a escolha fica salva neste navegador. */
+const escuroSistema = matchMedia("(prefers-color-scheme: dark)");
+function temaAtual() { return document.documentElement.dataset.theme || (escuroSistema.matches ? "dark" : "light"); }
+function marcarTema() {
+  const t = temaAtual(); document.documentElement.dataset.temaEfetivo = t;
+  const b = document.getElementById("btn-tema");
+  const rot = t === "dark" ? "Mudar para o modo claro" : "Mudar para o modo escuro";
+  b.setAttribute("aria-label", rot); b.title = rot;
+}
+document.getElementById("btn-tema").addEventListener("click", () => {
+  const novo = temaAtual() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = novo;
+  try { localStorage.setItem("tierlist-tema", novo); } catch (e) {}
+  marcarTema();
+});
+escuroSistema.addEventListener?.("change", marcarTema);
+new MutationObserver(marcarTema).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+marcarTema();
 
 render();
 </script>
