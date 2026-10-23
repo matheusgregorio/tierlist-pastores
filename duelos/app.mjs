@@ -79,7 +79,7 @@ function render() {
     $('oponentes').append(candidato(info.par[0]), elemento('span', 'versus', 'VS'), candidato(info.par[1]));
   } else {
     const titulo = elemento('h3', '', 'Você escolheu o pódio.'); titulo.tabIndex = -1;
-    $('resultado').append(elemento('p', 'eyebrow', 'MATA-MATA CONCLUÍDO'), titulo, podio(info), elemento('p', 'sub', 'Agora desafie seus amigos a escolher o deles.'));
+    $('resultado').append(elemento('p', 'eyebrow', 'DUELOS CONCLUÍDOS'), titulo, podio(info), elemento('p', 'sub', 'Agora desafie seus amigos a escolher o deles.'));
   }
   document.querySelectorAll('.categoria').forEach(b => b.setAttribute('aria-current', String(b.dataset.id === categoria.id)));
   renderChave(info);
@@ -252,7 +252,7 @@ async function gerarResultado(cat, estado) {
   const ctx = canvas.getContext('2d'); ctx.scale(2, 2);
   ctx.fillStyle = '#f3f1ee'; ctx.fillRect(0, 0, 1080, 1920);
   ['#e5484d', '#f08c3a', '#e9c43b', '#7cbf5a', '#4aa3c9', '#8b7fd1'].forEach((cor, i) => caixaCanvas(ctx, i * 180, 0, 180, 12, cor, 0));
-  ctx.textAlign = 'left'; ctx.fillStyle = '#1f4e79'; ctx.font = '800 24px Figtree, sans-serif'; ctx.fillText('MEU MATA-MATA', 54, 86);
+  ctx.textAlign = 'left'; ctx.fillStyle = '#1f4e79'; ctx.font = '800 24px Figtree, sans-serif'; ctx.fillText('MEU DUELO', 54, 86);
   ctx.fillStyle = '#1d1b19'; ctx.font = '52px "Archivo Black", sans-serif';
   textoQuebrado(ctx, cat.titulo, 54, 160, 972, 60);
   ctx.font = '26px Figtree, sans-serif'; ctx.fillStyle = '#6b655e'; ctx.fillText('Meu pódio e o caminho até a final.', 54, 228);
@@ -281,10 +281,10 @@ $('compartilhar').addEventListener('click', async () => {
     const blob = await gerarResultado(cat, estado);
     if (fotoURL) URL.revokeObjectURL(fotoURL);
     fotoURL = URL.createObjectURL(blob);
-    arquivo = new File([blob], `mata-mata-${cat.id}.png`, { type: 'image/png' });
+    arquivo = new File([blob], `duelo-${cat.id}.png`, { type: 'image/png' });
     categoriaExportada = cat;
     $('imagem-chave').src = fotoURL;
-    $('exportacao-aviso').textContent = 'Compartilhe a imagem com o link para seus amigos fazerem o mata-mata deles.';
+    $('exportacao-aviso').textContent = 'Compartilhe a imagem com o link para seus amigos fazerem os duelos deles.';
     $('exportacao').showModal();
   } catch { $('aviso').textContent = 'Não foi possível preparar a imagem. Tente novamente.'; }
   finally { b.disabled = false; b.textContent = 'Compartilhar resultado ↗'; }

@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Duelos · Mata-mata dos Pregadores</title>
-  <meta name="description" content="Escolha seus favoritos em quatro mata-matas: pregadores brasileiros, teólogos internacionais, históricos e dos hereges. Monte e compartilhe sua chave.">
-  <meta property="og:title" content="Mata-mata dos Pregadores">
+  <title>Duelo de Pregadores</title>
+  <meta name="description" content="Escolha seus favoritos nos duelos de pregadores brasileiros, teólogos internacionais, históricos e dos hereges. Monte e compartilhe sua chave.">
+  <meta property="og:title" content="Duelo de Pregadores">
   <meta property="og:description" content="16 nomes. Você decide o pódio. Escolha seus favoritos e compartilhe com os amigos.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://matheusgregorio.github.io/tierlist-pastores/capa.jpg">
@@ -21,20 +21,21 @@
 </head>
 <body>
   <main class="wrap">
-    <header class="topo">
-      <a class="marca" href="../">TIER LIST <span>/ DUELOS</span></a>
-      <button id="tema" class="icone" type="button" aria-label="Trocar tema">◐</button>
-    </header>
-
-    <nav class="site-nav" aria-label="Navegação principal">
-    <a href="../">Pastores</a>
-    <a href="../historia/">Teólogos</a>
-    <a href="../duelos/" aria-current="page">Duelos</a>
-  </nav>
+    <div class="site-header">
+      <div class="site-top">
+        <a class="site-marca" href="../">TIER LIST <span>/ DUELOS</span></a>
+        <button id="tema" class="icone" type="button" aria-label="Trocar tema">◐</button>
+      </div>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="../">Pastores</a>
+        <a href="../historia/">História</a>
+        <a href="../duelos/" aria-current="page">Duelos</a>
+      </nav>
+    </div>
 
     <section class="intro" aria-labelledby="titulo">
       <p class="eyebrow">VOCÊ ESCOLHE QUEM AVANÇA</p>
-      <h1 id="titulo">Mata-mata<span>dos pregadores.</span></h1>
+      <h1 id="titulo">Duelo<span>de pregadores.</span></h1>
       <p class="sub">Dois nomes. Uma escolha. Quem chega ao seu pódio?</p>
       <div class="paleta" aria-hidden="true"><i style="--cor:var(--s)"></i><i style="--cor:var(--a)"></i><i style="--cor:var(--b)"></i><i style="--cor:var(--c)"></i><i style="--cor:var(--d)"></i><i style="--cor:var(--f)"></i></div>
     </section>
@@ -77,7 +78,7 @@
   </dialog>
   <dialog id="exportacao" aria-labelledby="exportacao-titulo">
     <div class="exportacao-topo"><h2 id="exportacao-titulo">Seu pódio e chaveamento</h2><button id="fechar-exportacao" type="button" aria-label="Fechar prévia">Fechar</button></div>
-    <div class="previa"><img id="imagem-chave" alt="Pódio com fotos dos três colocados e chaveamento completo do mata-mata"></div>
+    <div class="previa"><img id="imagem-chave" alt="Pódio com fotos dos três colocados e chaveamento completo dos duelos"></div>
     <p id="exportacao-aviso" class="hint" role="status"></p>
     <div class="btns dialog-acoes"><button id="baixar" type="button">Baixar imagem</button><button id="enviar" type="button" class="primary">Compartilhar</button></div>
   </dialog>

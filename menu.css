@@ -3,3 +3,11 @@
 .site-nav a:hover { color: var(--accent); background: var(--surface); }
 .site-nav a[aria-current="page"] { background: var(--surface); color: var(--accent); box-shadow: 0 1px 4px rgb(0 0 0 / .08); }
 .site-nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.site-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; }
+.site-marca { font: 15px var(--display); color: var(--fg); text-decoration: none; letter-spacing: -.04em; white-space: nowrap; }
+.site-marca span { color: var(--muted); font: 700 11px var(--body); letter-spacing: .12em; margin-left: 6px; }
+.site-top button.icone { width: 40px; height: 40px; flex-shrink: 0; }
+@media (max-width: 520px) {
+  .site-marca { font-size: 12px; }
+  .site-marca span { font-size: 9px; }
+}

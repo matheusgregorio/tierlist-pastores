@@ -48,8 +48,6 @@ body { background: var(--bg); color: var(--fg); font-family: var(--body); font-s
 .wrap { max-width: 1000px; margin: 0 auto; display: grid; gap: 20px; }
 .wrap .wrap { width: 100%; max-width: none; }
 header { position: relative; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; }
-.titulo { padding-right: 52px; }
-#btn-tema { position: absolute; top: 0; right: 0; }
 .eyebrow { font-weight: 700; font-size: 13px; letter-spacing: .3em; color: var(--accent); margin: 0 0 6px; }
 h1 { font-family: var(--display); font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.02; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
 .sub { color: var(--muted); margin: 8px 0 0; }
@@ -139,11 +137,20 @@ input::placeholder { color: var(--muted); }
 </head>
 <body>
 <div class="wrap">
-  <nav class="site-nav" aria-label="Navegação principal">
-    <a href="./" aria-current="page">Pastores</a>
-    <a href="historia/">Teólogos</a>
-    <a href="duelos/">Duelos</a>
-  </nav>
+  <div class="site-header">
+    <div class="site-top">
+      <a class="site-marca" href="./">TIER LIST <span>/ PASTORES</span></a>
+      <button id="btn-tema" class="icone" type="button" aria-label="Trocar tema">
+        <svg class="sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+        <svg class="lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+    </div>
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="./" aria-current="page">Pastores</a>
+      <a href="historia/">História</a>
+      <a href="duelos/">Duelos</a>
+    </nav>
+  </div>
   <header>
     <div class="titulo">
       <p class="eyebrow">TIER LIST</p>
@@ -153,10 +160,6 @@ input::placeholder { color: var(--muted); }
     <div class="btns">
       <button id="btn-share" class="primary">Compartilhar com os amigos</button>
       <button id="btn-reset">Recomeçar</button>
-      <button id="btn-tema" class="icone" type="button" aria-label="Trocar tema">
-        <svg class="sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
-        <svg class="lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
-      </button>
     </div>
   </header>
 
