@@ -1,0 +1,32 @@
+[
+  {
+    "nome": "Mauro Meister",
+    "arquivo": "44.jpg",
+    "origem": "../duelos/fontes-fotos.json",
+    "observacao": "Mesmo retrato usado nos duelos."
+  },
+  {
+    "nome": "Pedro Dulci",
+    "arquivo": "45.jpg",
+    "pagina": "https://theinvisiblecollege.com.br/booster/",
+    "imagem": "https://theinvisiblecollege.com.br/wp-content/uploads/2022/03/PedroDulci-2022.jpg"
+  },
+  {
+    "nome": "Judiclay Santos",
+    "arquivo": "46.jpg",
+    "pagina": "https://www.ministeriofiel.com.br/portugal/lideres/Judiclay.html",
+    "imagem": "https://www.ministeriofiel.com.br/portugal/lideres/upload/speakers/sp1%402x.jpg"
+  },
+  {
+    "nome": "Valter Reggiani",
+    "arquivo": "47.jpg",
+    "pagina": "https://www.teomidiacast.org/636142/episodes/13946753-153-ministerio-bivocacional",
+    "observacao": "Retrato do convidado recortado da arte do episódio."
+  },
+  {
+    "nome": "Tupirani da Hora Lores",
+    "arquivo": "48.jpg",
+    "pagina": "https://oglobo.globo.com/rio/policia-civil-instaura-inquerito-para-apurar-ataques-racistas-machistas-homofobicos-feitos-por-pastor-durante-culto-25167367",
+    "imagem": "https://ogimg.infoglobo.com.br/in/25167365-a50-0e2/FT1086A/760/76403611_RIRio-de-Janeiro-RJ26-04-2018Varios-membros-da-Igreja-Geracao-Jesus-Cristo-fic.jpg"
+  }
+]

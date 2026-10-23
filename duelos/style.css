@@ -19,11 +19,9 @@ button:active { transform:translateY(1px); }
 button:disabled { opacity:.45; cursor:default; }
 button.primary { background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
 button:focus-visible,a:focus-visible,[tabindex]:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
-.topo { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+.topo { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:16px; }
 .marca { font:15px var(--display); color:var(--fg); text-decoration:none; letter-spacing:-.04em; white-space:nowrap; }
 .marca span { color:var(--muted); font:700 11px var(--body); letter-spacing:.12em; margin-left:6px; }
-.topo nav { display:flex; gap:20px; align-items:center; }
-.topo nav a { font-weight:700; font-size:13px; text-decoration:none; }
 .icone { font-size:22px; padding:0; width:38px; height:38px; }
 .intro { padding:28px 0 22px; }
 .eyebrow { font-size:11px; font-weight:800; letter-spacing:.18em; color:var(--accent); margin:0 0 10px; }
@@ -115,9 +113,6 @@ dialog::backdrop { background:rgb(20 18 16/.65); }
   .topo { align-items:start; padding-bottom:16px; }
   .marca { margin-top:10px; font-size:12px; }
   .marca span { font-size:9px; }
-  .topo nav { gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-  .topo nav a { font-size:11px; }
-  .topo nav a:nth-child(2) { display:none; }
   .intro { padding-top:30px; }
   .categorias { grid-template-columns:repeat(2,1fr); gap:6px; }
   .categoria { padding:12px 6px; font-size:12px; }

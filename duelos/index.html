@@ -17,17 +17,20 @@
     try { const tema = localStorage.getItem('tierlist-tema'); if (tema === 'light' || tema === 'dark') document.documentElement.dataset.theme = tema; } catch {}
   </script>
   <script type="module" src="app.mjs"></script>
+<link rel="stylesheet" href="../menu.css">
 </head>
 <body>
   <main class="wrap">
     <header class="topo">
       <a class="marca" href="../">TIER LIST <span>/ DUELOS</span></a>
-      <nav aria-label="Navegação principal">
-        <a href="../">Pastores</a>
-        <a href="../historia/">Teólogos da História</a>
-        <button id="tema" class="icone" type="button" aria-label="Trocar tema">◐</button>
-      </nav>
+      <button id="tema" class="icone" type="button" aria-label="Trocar tema">◐</button>
     </header>
+
+    <nav class="site-nav" aria-label="Navegação principal">
+    <a href="../">Pastores</a>
+    <a href="../historia/">Teólogos</a>
+    <a href="../duelos/" aria-current="page">Duelos</a>
+  </nav>
 
     <section class="intro" aria-labelledby="titulo">
       <p class="eyebrow">VOCÊ ESCOLHE QUEM AVANÇA</p>
