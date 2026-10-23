@@ -17,3 +17,7 @@ Os pastores estão no início do `<script>` em `index.html`, na constante `PASTO
 ## Publicar
 
 Em **Settings → Pages**, escolha *Deploy from a branch*, branch `main`, pasta `/ (root)`.
+
+## Teólogos da História
+
+A segunda tier list fica em `historia/` (endereço `/historia`), com a mesma estrutura: a lista está em `historia/index.html` e as fotos em `historia/fotos/`. Os retratos vêm da Wikimedia Commons (obras em domínio público).

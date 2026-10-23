@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tier List de Teólogos</title>
+<meta name="description" content="Ranqueie os grandes teólogos da história da igreja: monte a sua tier list e compartilhe com os amigos.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://matheusgregorio.github.io/tierlist-pastores/historia/">
+<meta property="og:title" content="Tier List de Teólogos da História">
+<meta property="og:description" content="Ranqueie os grandes teólogos da história da igreja: monte a sua tier list e compartilhe com os amigos.">
+<meta property="og:image" content="https://matheusgregorio.github.io/tierlist-pastores/historia/capa.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ranqueie os teólogos da história: fileiras S, A, B, C, D e F e retratos de teólogos">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tier List de Teólogos da História">
+<meta name="twitter:description" content="Ranqueie os grandes teólogos da história da igreja: monte a sua tier list e compartilhe com os amigos.">
+<meta name="twitter:image" content="https://matheusgregorio.github.io/tierlist-pastores/historia/capa.jpg">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Figtree:wght@400;600;700&display=swap">
+<style>
+/* Layout: segue o visual da imagem de compartilhar. Fileiras arredondadas e separadas sobre fundo creme,
+   rótulo colorido à esquerda, fotos quadradas com o nome embaixo. Tema claro e escuro seguem o aparelho. */
+:root {
+  --bg: #f3f1ee; --row: #e7e3dd; --surface: #ffffff; --fg: #1d1b19; --muted: #6b655e; --line: #d4cec6;
+  --accent: #1f4e79; --on-accent: #ffffff; --shadow: rgb(29 27 25 / .10);
+  --s: #e5484d; --a: #f08c3a; --b: #e9c43b; --c: #7cbf5a; --d: #4aa3c9; --f: #8b7fd1; --on-tier: #1d1b19;
+  --display: "Archivo Black", Impact, "Arial Black", sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #151413; --row: #24221f; --surface: #2d2a27; --fg: #f1ede8; --muted: #a69f97; --line: #3b3835;
+  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35);
+  --s: #e0555a; --a: #ec9147; --b: #e2c049; --c: #7fbd60; --d: #52a5c8; --f: #9286d2; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #151413; --row: #24221f; --surface: #2d2a27; --fg: #f1ede8; --muted: #a69f97; --line: #3b3835;
+  --accent: #8cb6de; --on-accent: #151413; --shadow: rgb(0 0 0 / .35);
+  --s: #e0555a; --a: #ec9147; --b: #e2c049; --c: #7fbd60; --d: #52a5c8; --f: #9286d2; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 56px; }
+.wrap { max-width: 1000px; margin: 0 auto; display: grid; gap: 20px; }
+.wrap .wrap { width: 100%; max-width: none; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; }
+.eyebrow { font-weight: 700; font-size: 13px; letter-spacing: .3em; color: var(--accent); margin: 0 0 6px; }
+h1 { font-family: var(--display); font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.02; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--muted); margin: 8px 0 0; }
+.outra { display: inline-block; margin-top: 8px; font-weight: 700; font-size: 14px; color: var(--accent); text-decoration: none; }
+.outra:hover { text-decoration: underline; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font: 700 14px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  padding: 9px 16px; border-radius: 10px; cursor: pointer; transition: border-color .15s, transform .1s; }
+button:hover { border-color: var(--accent); }
+button:active { transform: translateY(1px); }
+button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+button:disabled { opacity: .6; cursor: progress; }
+button.icone { padding: 0; width: 40px; height: 40px; display: inline-grid; place-items: center; }
+button.icone svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+button.icone .lua { fill: currentColor; stroke: none; }
+:root[data-tema-efetivo="dark"] button.icone .lua, :root:not([data-tema-efetivo="dark"]) button.icone .sol { display: none; }
+button:focus-visible, input:focus-visible, [contenteditable]:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#board { display: grid; gap: 8px; }
+.tier { display: grid; grid-template-columns: 112px 1fr; min-height: 132px; border-radius: 14px; overflow: hidden; background: var(--row); }
+.label { position: relative; overflow: hidden; }
+.label .txt { position: absolute; inset: 8px; display: flex; align-items: center; justify-content: center;
+  text-align: center; font-family: var(--display); font-size: 26px; line-height: 1.1; color: var(--on-tier);
+  overflow-wrap: normal; cursor: text; border-radius: 6px; outline-offset: -2px; }
+.drop { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 10px;
+  min-width: 0; transition: background .15s; }
+.drop.over, .drop.target { background: color-mix(in srgb, var(--row), var(--accent) 16%); }
+
+.chip { width: 92px; display: grid; justify-items: center; align-content: start; gap: 6px; padding: 0;
+  border-radius: 10px; cursor: grab; user-select: none; touch-action: manipulation; }
+.chip.sel .av { outline: 3px solid var(--accent); outline-offset: 2px; }
+.chip.dragging { opacity: .4; }
+.av { width: 100%; aspect-ratio: 1; border-radius: 10px; background: var(--accent); color: var(--on-accent);
+  display: grid; place-items: center; font-family: var(--display); font-size: 1.6rem; overflow: hidden;
+  box-shadow: 0 1px 3px var(--shadow); }
+.av img { width: 100%; height: 100%; object-fit: cover; }
+.nm { font-size: 12.5px; font-weight: 700; text-align: center; line-height: 1.2; overflow-wrap: break-word; hyphens: auto; }
+
+.pool-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; }
+h2 { font-family: var(--display); font-size: 1.2rem; margin: 0; }
+#pool { background: var(--row); border: 2px dashed var(--line); border-radius: 14px; min-height: 120px; padding: 10px; }
+.empty { color: var(--muted); padding: 10px; }
+form { display: flex; gap: 8px; flex-wrap: wrap; }
+input { font: 15px var(--body); padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface); color: var(--fg); flex: 1 1 200px; min-width: 0; }
+input::placeholder { color: var(--muted); }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+
+#modal { position: fixed; inset: 0; z-index: 20; background: rgb(20 18 16 / .62); display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+#modal[hidden] { display: none; }
+.sheet { background: var(--surface); color: var(--fg); border-radius: 16px; width: min(560px, 100%); max-height: 100%;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; box-shadow: 0 10px 40px rgb(0 0 0 / .3); }
+.sheet-head, .sheet-foot { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 12px 16px; }
+.sheet-foot { justify-content: flex-end; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.sheet-head { border-bottom: 1px solid var(--line); }
+.sheet-body { overflow: auto; padding: 16px; background: var(--row); min-height: 0; }
+#modal-aviso { margin: 0; padding: 10px 16px 0; }
+.sheet-body img { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 14px rgb(0 0 0 / .18); }
+
+@media (max-width: 520px) {
+  body { padding-block: 24px 48px; }
+  .tier { grid-template-columns: 76px 1fr; min-height: 108px; border-radius: 12px; }
+  .drop { gap: 6px; padding: 8px; }
+  .chip { width: 72px; gap: 4px; } .nm { font-size: 10.5px; } .av { font-size: 1.2rem; border-radius: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<script>
+  try { const t = localStorage.getItem("tierlist-tema"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">TIER LIST</p>
+      <h1>Teólogos da História</h1>
+      <p class="sub">Arraste os nomes para as fileiras. No celular, toque no nome e depois na fileira.</p>
+      <a class="outra" href="../">Veja também: Pastores Brasileiros →</a>
+    </div>
+    <div class="btns">
+      <button id="btn-share" class="primary">Compartilhar com os amigos</button>
+      <button id="btn-reset">Recomeçar</button>
+      <button id="btn-tema" class="icone" type="button" aria-label="Trocar tema">
+        <svg class="sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+        <svg class="lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="board"></div>
+
+  <section class="wrap" style="gap:10px">
+    <div class="pool-head">
+      <h2>Teólogos</h2>
+      <p class="hint">Duplo clique num nome para removê-lo.</p>
+    </div>
+    <div id="pool" class="drop"></div>
+    <form id="add">
+      <input id="novo" placeholder="Adicionar teólogo (ex.: Martyn Lloyd-Jones)" autocomplete="off">
+      <button class="primary" type="submit">Adicionar</button>
+    </form>
+    <p class="hint">Rótulos das fileiras são editáveis: clique no S, A, B… e escreva o que quiser.</p>
+  </section>
+</div>
+
+<div id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="sheet-head">
+      <h2 id="modal-title">Sua tier list</h2>
+      <button id="btn-fechar" aria-label="Fechar">Fechar</button>
+    </div>
+    <div class="sheet-body">
+      <p id="modal-msg" class="hint" hidden></p>
+      <img id="modal-img" alt="Imagem da sua tier list de teólogos" hidden>
+    </div>
+    <p id="modal-aviso" class="hint" role="status" hidden></p>
+    <div class="sheet-foot" id="modal-acoes">
+      <button id="btn-baixar">Baixar imagem</button>
+      <button id="btn-enviar" class="primary">Compartilhar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Lista de teólogos =====
+   Edite aqui. "foto" é opcional: caminho de imagem dentro do repositório (ex.: "fotos/fulano.jpg").
+   Sem foto, aparecem as iniciais. */
+// Retratos: Wikimedia Commons (obras em domínio público).
+const PASTORES = [
+  { id: "t01", nome: "Irineu de Lyon", foto: "fotos/01.jpg" },
+  { id: "t02", nome: "Atanásio", foto: "fotos/02.jpg" },
+  { id: "t03", nome: "Agostinho", foto: "fotos/03.jpg" },
+  { id: "t04", nome: "João Crisóstomo", foto: "fotos/04.jpg" },
+  { id: "t05", nome: "Jerônimo", foto: "fotos/05.jpg" },
+  { id: "t06", nome: "Anselmo de Cantuária", foto: "fotos/06.jpg" },
+  { id: "t07", nome: "Bernardo de Claraval", foto: "fotos/07.jpg" },
+  { id: "t08", nome: "Tomás de Aquino", foto: "fotos/08.jpg" },
+  { id: "t09", nome: "John Wycliffe", foto: "fotos/09.jpg" },
+  { id: "t10", nome: "Jan Hus", foto: "fotos/10.jpg" },
+  { id: "t11", nome: "Martinho Lutero", foto: "fotos/11.jpg" },
+  { id: "t12", nome: "Ulrico Zuínglio", foto: "fotos/12.jpg" },
+  { id: "t13", nome: "Filipe Melanchthon", foto: "fotos/13.jpg" },
+  { id: "t14", nome: "João Calvino", foto: "fotos/14.jpg" },
+  { id: "t15", nome: "Heinrich Bullinger", foto: "fotos/15.jpg" },
+  { id: "t16", nome: "John Knox", foto: "fotos/16.jpg" },
+  { id: "t17", nome: "Menno Simons", foto: "fotos/17.jpg" },
+  { id: "t18", nome: "Jacó Armínio", foto: "fotos/18.jpg" },
+  { id: "t19", nome: "Francis Turretin", foto: "fotos/19.jpg" },
+  { id: "t20", nome: "John Owen", foto: "fotos/20.jpg" },
+  { id: "t21", nome: "Richard Baxter", foto: "fotos/21.jpg" },
+  { id: "t22", nome: "John Bunyan", foto: "fotos/22.jpg" },
+  { id: "t23", nome: "Jonathan Edwards", foto: "fotos/23.jpg" },
+  { id: "t24", nome: "John Wesley", foto: "fotos/24.jpg" },
+  { id: "t25", nome: "George Whitefield", foto: "fotos/25.jpg" },
+  { id: "t26", nome: "Charles Hodge", foto: "fotos/26.jpg" },
+  { id: "t27", nome: "Charles Spurgeon", foto: "fotos/27.jpg" },
+  { id: "t28", nome: "Abraham Kuyper", foto: "fotos/28.jpg" },
+  { id: "t29", nome: "Herman Bavinck", foto: "fotos/29.jpg" },
+  { id: "t30", nome: "B. B. Warfield", foto: "fotos/30.jpg" },
+];
+
+const TIERS = [
+  { id: "S", cor: "var(--s)" }, { id: "A", cor: "var(--a)" }, { id: "B", cor: "var(--b)" },
+  { id: "C", cor: "var(--c)" }, { id: "D", cor: "var(--d)" }, { id: "F", cor: "var(--f)" },
+];
+const KEY = "tierlist-teologos-v1";
+
+function pid(p) { return p.id || slug(p.nome); }
+function slug(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+function iniciais(n) {
+  const p = n.replace(/^(pr|pra|rev|bispo|ap|apóstolo|pastor|pastora)\.?\s+/i, "").split(/\s+/).filter((w, i, a) => w && (a.length < 3 || !/^(jr\.?|j[uú]nior|filho|neto)$/i.test(w)));
+  return ((p[0]?.[0] || "") + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+}
+
+function estadoInicial() {
+  const s = { labels: {}, pos: {}, extras: [], removidos: [] };
+  TIERS.forEach(t => s.labels[t.id] = t.id);
+  return s;
+}
+let estado = estadoInicial();
+try { const salvo = JSON.parse(localStorage.getItem(KEY)); if (salvo) estado = Object.assign(estadoInicial(), salvo); } catch (e) {}
+function salvar() { try { localStorage.setItem(KEY, JSON.stringify(estado)); } catch (e) {} }
+
+function todos() {
+  const lista = [...PASTORES, ...estado.extras];
+  const vistos = new Set();
+  return lista.filter(p => { const id = pid(p); if (vistos.has(id) || estado.removidos.includes(id)) return false; vistos.add(id); return true; });
+}
+
+const board = document.getElementById("board"), pool = document.getElementById("pool");
+let selecionado = null;
+
+function chip(p) {
+  const el = document.createElement("div");
+  el.className = "chip"; el.draggable = true; el.dataset.id = pid(p); el.tabIndex = 0;
+  const av = document.createElement("div"); av.className = "av";
+  if (p.foto) { const img = new Image(); img.src = p.foto; img.alt = ""; img.onerror = () => { av.textContent = iniciais(p.nome); }; av.append(img); }
+  else av.textContent = iniciais(p.nome);
+  const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = p.nome;
+  el.append(av, nm);
+  el.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", el.dataset.id); el.classList.add("dragging"); });
+  el.addEventListener("dragend", () => el.classList.remove("dragging"));
+  el.addEventListener("click", e => { e.stopPropagation(); selecionar(el); });
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selecionar(el); } });
+  el.addEventListener("dblclick", () => remover(el.dataset.id));
+  return el;
+}
+
+function selecionar(el) {
+  if (selecionado === el) { el.classList.remove("sel"); selecionado = null; marcarAlvos(false); return; }
+  selecionado?.classList.remove("sel");
+  selecionado = el; el.classList.add("sel"); marcarAlvos(true);
+}
+function marcarAlvos(on) { document.querySelectorAll(".drop").forEach(d => d.classList.toggle("target", on)); }
+
+function mover(id, destino) {
+  if (destino === "pool") delete estado.pos[id]; else estado.pos[id] = destino;
+  salvar(); render();
+}
+function remover(id) {
+  estado.extras = estado.extras.filter(p => pid(p) !== id);
+  if (PASTORES.some(p => pid(p) === id)) estado.removidos.push(id);
+  delete estado.pos[id]; salvar(); render();
+}
+
+function prepararDrop(el, destino) {
+  el.addEventListener("dragover", e => { e.preventDefault(); el.classList.add("over"); });
+  el.addEventListener("dragleave", () => el.classList.remove("over"));
+  el.addEventListener("drop", e => { e.preventDefault(); el.classList.remove("over"); mover(e.dataTransfer.getData("text/plain"), destino); });
+  el.addEventListener("click", () => { if (selecionado) { const id = selecionado.dataset.id; selecionado = null; marcarAlvos(false); mover(id, destino); } });
+}
+
+/* Rótulo das fileiras: começa grande e diminui até o texto caber inteiro no quadrado */
+function ajustarRotulo(txt) {
+  if (!txt.clientHeight) return;
+  let tam = 26;
+  txt.style.fontSize = tam + "px";
+  while (tam > 10 && (txt.scrollHeight > txt.clientHeight + 1 || txt.scrollWidth > txt.clientWidth + 1)) {
+    tam -= 1; txt.style.fontSize = tam + "px";
+  }
+}
+function ajustarTodos() { document.querySelectorAll(".label .txt").forEach(ajustarRotulo); }
+window.addEventListener("resize", ajustarTodos);
+document.fonts?.ready?.then(ajustarTodos);
+
+function render() {
+  board.innerHTML = ""; pool.innerHTML = "";
+  const pessoas = todos();
+  TIERS.forEach(t => {
+    const row = document.createElement("div"); row.className = "tier";
+    const lab = document.createElement("div"); lab.className = "label"; lab.style.background = t.cor;
+    const txt = document.createElement("div"); txt.className = "txt";
+    txt.contentEditable = "true"; txt.spellcheck = false; txt.textContent = estado.labels[t.id];
+    txt.setAttribute("aria-label", "Nome da fileira");
+    txt.addEventListener("input", () => { estado.labels[t.id] = txt.textContent.trim() || t.id; ajustarRotulo(txt); salvar(); });
+    txt.addEventListener("blur", () => { if (!txt.textContent.trim()) { txt.textContent = t.id; ajustarRotulo(txt); } });
+    lab.append(txt);
+    const drop = document.createElement("div"); drop.className = "drop";
+    prepararDrop(drop, t.id);
+    pessoas.filter(p => estado.pos[pid(p)] === t.id).forEach(p => drop.append(chip(p)));
+    row.append(lab, drop); board.append(row);
+  });
+  const soltos = pessoas.filter(p => !TIERS.some(t => t.id === estado.pos[pid(p)]));
+  soltos.forEach(p => pool.append(chip(p)));
+  if (!pessoas.length) pool.innerHTML = '<div class="empty">Nenhum teólogo ainda. Adicione pelo campo abaixo.</div>';
+  ajustarTodos();
+}
+prepararDrop(pool, "pool");
+
+document.getElementById("add").addEventListener("submit", e => {
+  e.preventDefault();
+  const inp = document.getElementById("novo"), nome = inp.value.trim();
+  if (!nome) return;
+  const id = slug(nome);
+  estado.removidos = estado.removidos.filter(r => r !== id);
+  if (!todos().some(p => pid(p) === id)) estado.extras.push({ nome });
+  inp.value = ""; salvar(); render();
+});
+
+document.getElementById("btn-reset").addEventListener("click", function () {
+  if (this.dataset.confirm) { estado = estadoInicial(); salvar(); render(); this.textContent = "Recomeçar"; delete this.dataset.confirm; return; }
+  this.dataset.confirm = "1"; this.textContent = "Confirmar: apagar tudo?";
+  setTimeout(() => { this.textContent = "Recomeçar"; delete this.dataset.confirm; }, 4000);
+});
+
+/* ===== Imagem para compartilhar =====
+   Desenhada num canvas de 1080 px de largura (formato de post), sempre no tema claro. */
+const SITE = "matheusgregorio.github.io/tierlist-pastores/historia";
+const CORES = { S: "#e5484d", A: "#f08c3a", B: "#e9c43b", C: "#7cbf5a", D: "#4aa3c9", F: "#8b7fd1" };
+const IMG = { W: 1080, pad: 56, labelW: 180, cell: 124, foto: 112, gapX: 14, rowPad: 16, nomeH: 50 };
+const DISPLAY = '"Archivo Black", Impact, "Arial Black", sans-serif';
+const BODY = 'Figtree, system-ui, -apple-system, "Segoe UI", sans-serif';
+
+function carregarFoto(src) {
+  return new Promise(res => { if (!src) return res(null); const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+}
+function quebrar(ctx, texto, larg) {
+  const linhas = []; let atual = "";
+  for (const w of texto.split(/\s+/)) {
+    const teste = atual ? atual + " " + w : w;
+    if (ctx.measureText(teste).width <= larg || !atual) atual = teste; else { linhas.push(atual); atual = w; }
+  }
+  if (atual) linhas.push(atual);
+  return linhas;
+}
+function retArredondado(ctx, x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+
+async function gerarImagem() {
+  try { await Promise.all([document.fonts.load(`64px ${DISPLAY}`), document.fonts.load(`700 18px ${BODY}`), document.fonts.load(`600 18px ${BODY}`)]); } catch (e) {}
+  const pessoas = todos();
+  const fileiras = TIERS.map(t => ({ t, gente: pessoas.filter(p => estado.pos[pid(p)] === t.id) }));
+  if (!fileiras.some(f => f.gente.length)) return null;
+
+  const fotos = new Map();
+  await Promise.all(pessoas.filter(p => estado.pos[pid(p)]).map(async p => fotos.set(pid(p), await carregarFoto(p.foto))));
+
+  // Altura máxima 1350 (formato 4:5): o WhatsApp e o Instagram mostram a imagem inteira, sem cortar.
+  // Com muita gente, as fotos diminuem até tudo caber.
+  const H_MAX = 1350, topo = 210, rodape = 100, gapFileira = 8;
+  const areaX = IMG.pad + IMG.labelW, areaW = IMG.W - IMG.pad * 2 - IMG.labelW;
+  function medir(k) {
+    const foto = Math.round(IMG.foto * k), cell = Math.round(IMG.cell * k), gapX = Math.round(IMG.gapX * k);
+    const rowPad = Math.round(IMG.rowPad * Math.max(k, .6)), nomeFonte = Math.max(11, Math.round(17 * Math.min(1, k * 1.15)));
+    const nomeH = Math.round(nomeFonte * 2.4 + 6), celH = foto + nomeH;
+    const porLinha = Math.max(1, Math.floor((areaW - rowPad * 2 + gapX) / (cell + gapX)));
+    const alturas = fileiras.map(f => f.gente.length
+      ? Math.ceil(f.gente.length / porLinha) * celH + rowPad * 2 - 6
+      : Math.round(celH * .55) + rowPad * 2);
+    const H = topo + alturas.reduce((a, b) => a + b, 0) + gapFileira * (fileiras.length - 1) + rodape;
+    return { foto, cell, gapX, rowPad, nomeFonte, celH, porLinha, alturas, H };
+  }
+  let k = 1, L = medir(k);
+  while (L.H > H_MAX && k > .4) { k -= .02; L = medir(k); }
+  const { foto: FOTO, cell: CELL, gapX: GAPX, rowPad: ROWPAD, nomeFonte, celH, porLinha, alturas, H } = L;
+  const escala = 2;
+  const cv = document.createElement("canvas"); cv.width = IMG.W * escala; cv.height = H * escala;
+  const ctx = cv.getContext("2d"); ctx.scale(escala, escala);
+
+  // fundo e cabeçalho
+  ctx.fillStyle = "#f3f1ee"; ctx.fillRect(0, 0, IMG.W, H);
+  ctx.fillStyle = "#1f4e79"; ctx.font = `700 22px ${BODY}`;
+  ctx.letterSpacing = "4px"; ctx.fillText("MINHA TIER LIST", IMG.pad, 84); ctx.letterSpacing = "0px";
+  ctx.fillStyle = "#1d1b19"; ctx.font = `64px ${DISPLAY}`; ctx.fillText("Teólogos da História", IMG.pad, 156);
+
+  // fileiras
+  let y = topo;
+  fileiras.forEach((f, i) => {
+    const h = alturas[i];
+    retArredondado(ctx, IMG.pad, y, IMG.W - IMG.pad * 2, h, 14); ctx.save(); ctx.clip();
+    ctx.fillStyle = "#e7e3dd"; ctx.fillRect(IMG.pad, y, IMG.W - IMG.pad * 2, h);
+    ctx.fillStyle = CORES[f.t.id] || "#999"; ctx.fillRect(IMG.pad, y, IMG.labelW, h);
+    ctx.restore();
+
+    // rótulo: maior fonte que caiba na largura e na altura
+    const rotulo = estado.labels[f.t.id] || f.t.id;
+    ctx.fillStyle = "#1d1b19"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    let tam = 64, linhas;
+    do { ctx.font = `${tam}px ${DISPLAY}`; linhas = quebrar(ctx, rotulo, IMG.labelW - 24); tam -= 2; }
+    while (tam > 14 && (linhas.length * tam * 1.15 > h - 16 || linhas.some(l => ctx.measureText(l).width > IMG.labelW - 24)));
+    const lh = (tam + 2) * 1.15, y0 = y + h / 2 - (linhas.length - 1) * lh / 2;
+    linhas.forEach((l, k) => ctx.fillText(l, IMG.pad + IMG.labelW / 2, y0 + k * lh));
+
+    // pessoas
+    f.gente.forEach((p, k) => {
+      const col = k % porLinha, lin = Math.floor(k / porLinha);
+      const cx = areaX + ROWPAD + col * (CELL + GAPX), cy = y + ROWPAD + lin * celH;
+      const fx = cx + (CELL - FOTO) / 2;
+      ctx.save(); retArredondado(ctx, fx, cy, FOTO, FOTO, Math.max(8, Math.round(14 * k))); ctx.clip();
+      const im = fotos.get(pid(p));
+      if (im) {
+        const s = Math.max(FOTO / im.width, FOTO / im.height), w = im.width * s, hh = im.height * s;
+        ctx.drawImage(im, fx + (FOTO - w) / 2, cy + (FOTO - hh) / 2, w, hh);
+      } else {
+        ctx.fillStyle = "#1f4e79"; ctx.fillRect(fx, cy, FOTO, FOTO);
+        ctx.fillStyle = "#f3f1ee"; ctx.font = `${Math.round(FOTO * .32)}px ${DISPLAY}`; ctx.fillText(iniciais(p.nome), fx + FOTO / 2, cy + FOTO / 2);
+      }
+      ctx.restore();
+      retArredondado(ctx, fx + .5, cy + .5, FOTO - 1, FOTO - 1, Math.max(8, Math.round(14 * k)));
+      ctx.strokeStyle = "rgba(29, 27, 25, .16)"; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = "#1d1b19"; ctx.font = `700 ${nomeFonte}px ${BODY}`; ctx.textBaseline = "top";
+      quebrar(ctx, p.nome, CELL + Math.round(GAPX * .4)).slice(0, 2).forEach((l, n) => ctx.fillText(l, cx + CELL / 2, cy + FOTO + 6 + n * Math.round(nomeFonte * 1.18)));
+      ctx.textBaseline = "middle";
+    });
+    y += h + gapFileira;
+  });
+
+  // rodapé
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "#6b655e"; ctx.font = `600 22px ${BODY}`; ctx.fillText("Monte a sua em", IMG.pad, H - 48);
+  const w1 = ctx.measureText("Monte a sua em ").width;
+  ctx.fillStyle = "#1f4e79"; ctx.font = `700 22px ${BODY}`; ctx.fillText(SITE, IMG.pad + w1, H - 48);
+  return cv;
+}
+
+const modal = document.getElementById("modal"), modalImg = document.getElementById("modal-img"), modalMsg = document.getElementById("modal-msg");
+const btnEnviar = document.getElementById("btn-enviar"), btnBaixar = document.getElementById("btn-baixar");
+const modalAviso = document.getElementById("modal-aviso");
+let arquivo = null;
+
+function fecharModal() { modal.hidden = true; if (modalImg.src.startsWith("blob:")) URL.revokeObjectURL(modalImg.src); arquivo = null; }
+document.getElementById("btn-fechar").addEventListener("click", fecharModal);
+modal.addEventListener("click", e => { if (e.target === modal) fecharModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) fecharModal(); });
+
+document.getElementById("btn-share").addEventListener("click", async function () {
+  this.disabled = true; const txt = this.textContent; this.textContent = "Gerando imagem…";
+  try {
+    const cv = await gerarImagem();
+    modal.hidden = false;
+    if (!cv) {
+      modalMsg.textContent = "Coloque pelo menos um teólogo numa fileira para gerar a imagem.";
+      modalMsg.hidden = false; modalImg.hidden = true; document.getElementById("modal-acoes").hidden = true; return;
+    }
+    const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+    arquivo = new File([blob], "tierlist-teologos.png", { type: "image/png" });
+    modalImg.src = URL.createObjectURL(blob);
+    modalImg.hidden = false; modalMsg.hidden = true; document.getElementById("modal-acoes").hidden = false;
+    modalAviso.hidden = true; btnEnviar.focus();
+  } finally { this.disabled = false; this.textContent = txt; }
+});
+
+const TEXTO = "Faça a sua em https://" + SITE;
+btnEnviar.addEventListener("click", async () => {
+  if (!arquivo) return;
+  if (navigator.canShare && navigator.canShare({ files: [arquivo] })) {
+    // Abre o menu de compartilhar do aparelho (WhatsApp, Instagram…) com a imagem e o texto
+    try { await navigator.share({ files: [arquivo], text: TEXTO }); return; }
+    catch (e) { if (e.name === "AbortError") return; }
+  }
+  // Sem suporte a enviar imagem (ex.: alguns computadores): baixa a imagem e abre o WhatsApp com o texto
+  btnBaixar.click();
+  window.open("https://wa.me/?text=" + encodeURIComponent(TEXTO), "_blank", "noopener");
+  modalAviso.textContent = "A imagem foi baixada. Anexe ela na conversa do WhatsApp que abriu.";
+  modalAviso.hidden = false;
+});
+btnBaixar.addEventListener("click", () => {
+  if (!arquivo) return;
+  const a = document.createElement("a"); a.download = arquivo.name; a.href = modalImg.src;
+  document.body.append(a); a.click(); a.remove();
+});
+
+/* ===== Tema claro / escuro =====
+   Padrão: o do aparelho. O botão troca para o outro modo e a escolha fica salva neste navegador. */
+const escuroSistema = matchMedia("(prefers-color-scheme: dark)");
+function temaAtual() { return document.documentElement.dataset.theme || (escuroSistema.matches ? "dark" : "light"); }
+function marcarTema() {
+  const t = temaAtual(); document.documentElement.dataset.temaEfetivo = t;
+  const b = document.getElementById("btn-tema");
+  const rot = t === "dark" ? "Mudar para o modo claro" : "Mudar para o modo escuro";
+  b.setAttribute("aria-label", rot); b.title = rot;
+}
+document.getElementById("btn-tema").addEventListener("click", () => {
+  const novo = temaAtual() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = novo;
+  try { localStorage.setItem("tierlist-tema", novo); } catch (e) {}
+  marcarTema();
+});
+escuroSistema.addEventListener?.("change", marcarTema);
+new MutationObserver(marcarTema).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+marcarTema();
+
+render();
+</script>
+</body>
+</html>
