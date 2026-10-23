@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { CATEGORIAS, chave, escolher, novoTorneio, restaurar, sortear } from './torneio.mjs';
+import { CATEGORIAS, chave, escolher, novoTorneio, restaurar, restaurarCategoria, sortear } from './torneio.mjs';
 
 test('os 16 duelos produzem ouro, prata e bronze distintos', () => {
   const t = novoTorneio();
@@ -62,5 +62,24 @@ test('quatro categorias têm 16 nomes únicos e fotos locais existentes', () => 
       assert.ok(p.foto, `Foto ausente: ${p.nome}`);
       assert.ok(existsSync(new URL(p.foto, import.meta.url)), `Arquivo ausente: ${p.nome}`);
     }
+  }
+});
+
+
+test('elenco brasileiro fecha 16 nomes sem duplicações e respeita as trocas', () => {
+  const nomes = CATEGORIAS.find(c => c.id === 'pregadores').pessoas.map(p => p.nome);
+  for (const nome of ['Luiz Sayão','Carlos Vailatti','Elizeu Rodrigues','Victor Fontana','Judiclay Santos']) assert.equal(nomes.filter(n => n === nome).length, 1, nome);
+  for (const nome of ['Filipe Niel','Davi Charles Gomes','Leandro Lima','Sérgio Lima','Renato Vargens']) assert.ok(!nomes.includes(nome), nome);
+  const hereges = CATEGORIAS.find(c => c.id === 'hereges').pessoas.map(p => p.nome);
+  assert.ok(hereges.includes('Tupirani da Hora Lores'));
+  assert.ok(!hereges.includes('Márcio Poncio'));
+});
+
+test('mudanças de elenco reiniciam só as categorias alteradas', () => {
+  const antigo = novoTorneio(); escolher(antigo, 1);
+  for (const categoria of CATEGORIAS) {
+    const esperado = categoria.versao === 2 ? novoTorneio() : antigo;
+    assert.deepEqual(restaurarCategoria(categoria, antigo), esperado, categoria.id);
+    assert.deepEqual(restaurarCategoria(categoria, {...antigo, versao: categoria.versao || 1}), antigo);
   }
 });

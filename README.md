@@ -8,7 +8,7 @@ A seção `duelos/` funciona primeiro no celular, com uma dupla por vez: toque n
 
 Cada categoria salva seu progresso separadamente no navegador. É possível desfazer a última escolha, restaurar os confrontos originais ou sortear uma nova chave. O resultado mostra o pódio com 1º, 2º e 3º lugares e gera uma imagem PNG com o pódio no topo e o chaveamento completo abaixo para baixar ou compartilhar pelo menu nativo nos navegadores compatíveis.
 
-Os nomes, as fotos e a ordem inicial estão em `duelos/torneio.mjs`. As fotos novas estão em `duelos/fotos/`; as fontes e os recortes estão registrados em `duelos/fontes-fotos.json`. As demais fotos são reutilizadas das duas tier lists existentes. O funcionamento não depende de serviços externos nem de ferramentas de build.
+Os nomes, as fotos e a ordem inicial estão em `duelos/torneio.mjs`. Ao trocar participantes ou a ordem inicial de uma categoria, incremente sua `versao` para reiniciar apenas o progresso daquele elenco e evitar atribuir escolhas antigas a outros nomes. As fotos novas estão em `duelos/fotos/`; as fontes e os recortes estão registrados em `duelos/fontes-fotos.json`. As demais fotos são reutilizadas das duas tier lists existentes. O funcionamento não depende de serviços externos nem de ferramentas de build.
 
 O botão Compartilhar envia a imagem e uma mensagem com o link da categoria para os amigos jogarem os próprios duelos. Em navegadores sem envio nativo de arquivos, baixa a imagem e abre o WhatsApp com o link, seguindo o comportamento das outras tier lists.
 

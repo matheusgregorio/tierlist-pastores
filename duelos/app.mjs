@@ -1,4 +1,4 @@
-import { CATEGORIAS, FASES, novoTorneio, chave, escolher, restaurar, sortear } from './torneio.mjs';
+import { CATEGORIAS, FASES, novoTorneio, chave, escolher, restaurarCategoria, sortear } from './torneio.mjs';
 import { compartilharResultado } from './share.mjs';
 
 const $ = id => document.getElementById(id);
@@ -6,7 +6,7 @@ const STORAGE = 'tierlist-duelos-v1';
 let salvos = {};
 try { salvos = JSON.parse(localStorage.getItem(STORAGE)) || {}; } catch {}
 if (typeof salvos !== 'object' || Array.isArray(salvos)) salvos = {};
-const torneios = Object.fromEntries(CATEGORIAS.map(c => [c.id, restaurar(salvos[c.id])]));
+const torneios = Object.fromEntries(CATEGORIAS.map(c => [c.id, restaurarCategoria(c, salvos[c.id])]));
 let categoria = CATEGORIAS[0];
 let focoPendente = false;
 let fotoURL = null;
@@ -16,7 +16,7 @@ let acaoConfirmada = null;
 const atual = () => torneios[categoria.id];
 
 function salvar() {
-  try { localStorage.setItem(STORAGE, JSON.stringify(torneios)); }
+  try { localStorage.setItem(STORAGE, JSON.stringify(Object.fromEntries(CATEGORIAS.map(c => [c.id, { ...torneios[c.id], versao: c.versao || 1 }])))); }
   catch { $('aviso').textContent = 'Não foi possível salvar o progresso. Você pode continuar jogando nesta página.'; }
 }
 function elemento(tag, classe, texto) {

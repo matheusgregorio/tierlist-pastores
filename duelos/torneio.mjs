@@ -5,16 +5,16 @@ const hist = (nome, numero) => pessoa(nome, `../historia/fotos/${numero}.jpg`);
 
 export const CATEGORIAS = [
   {
-    id: 'pregadores', titulo: 'Pregadores brasileiros', curto: 'Pregadores', cor: '#1f4e79',
+    id: 'pregadores', versao: 2, titulo: 'Pregadores brasileiros', curto: 'Pregadores', cor: '#1f4e79',
     pergunta: 'Quem avança para a próxima fase?',
     pessoas: [
       br('Augustus Nicodemus', '01'), br('Hernandes Dias Lopes', '02'),
-      br('Franklin Ferreira', '30'), pessoa('Renato Vargens'),
+      br('Franklin Ferreira', 'franklin-ferreira'), br('Luiz Sayão', '04'),
       br('Paulo Junior', '25'), br('Heber Campos Jr.', '26'),
       br('Filipe Fontes', '27'), br('Yago Martins', '05'),
-      pessoa('Leandro Lima'), pessoa('Sérgio Lima'),
-      pessoa('Emílio Garófalo Neto'), pessoa('Davi Charles Gomes'),
-      pessoa('Filipe Niel'), pessoa('Mauro Meister'),
+      br('Carlos Vailatti', '29'), br('Elizeu Rodrigues', '39'),
+      pessoa('Emílio Garófalo Neto'), br('Victor Fontana', '23'),
+      br('Judiclay Santos', 'judiclay-santos'), pessoa('Mauro Meister'),
       br('Jonas Madureira', '03'), br('Marcos Granconato', '34'),
     ],
   },
@@ -47,7 +47,7 @@ export const CATEGORIAS = [
     ],
   },
   {
-    id: 'hereges', titulo: 'Dos hereges', curto: 'Dos hereges', cor: '#e5484d',
+    id: 'hereges', versao: 2, titulo: 'Dos hereges', curto: 'Dos hereges', cor: '#e5484d',
     pergunta: 'Na sua opinião, quem é mais herege?',
     pessoas: [
       br('Edir Macedo', '13'), br('Valdemiro Santiago', '22'),
@@ -57,7 +57,7 @@ export const CATEGORIAS = [
       pessoa('Ricardo Gondim'), pessoa('Henrique Vieira'),
       br('Caio Fábio', '31'), pessoa('Ariovaldo Ramos'),
       pessoa('Tiago Brunet'), br('Deive Leonardo', '11'),
-      pessoa('Victor Azevedo'), pessoa('Márcio Poncio'),
+      pessoa('Victor Azevedo'), br('Tupirani da Hora Lores', '48'),
     ],
   },
 ];
@@ -129,4 +129,11 @@ export function sortear(aleatorio = Math.random) {
     [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
   }
   return novoTorneio(ordem);
+}
+
+// Evita reaproveitar escolhas por índice quando os participantes mudam.
+// Categorias que mantêm o elenco continuam aceitando o progresso anterior.
+export function restaurarCategoria(categoria, valor) {
+  if ((valor?.versao || 1) !== (categoria.versao || 1)) return novoTorneio();
+  return restaurar(valor);
 }

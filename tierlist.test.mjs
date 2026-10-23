@@ -72,14 +72,14 @@ test('novos pastores têm IDs únicos e fotos locais', () => {
   const html = readFileSync(new URL('index.html', import.meta.url), 'utf8');
   const pessoas = vm.runInNewContext(html.match(/const PASTORES = (\[[\s\S]*?\]);/)[1]);
   assert.equal(new Set(pessoas.map(p => p.id)).size, pessoas.length);
-  for (const nome of ['Mauro Meister','Pedro Dulci','Judiclay Santos','Valter Reggiani','Tupirani da Hora Lores']) {
+  for (const nome of ['Mauro Meister','Pedro Dulci','Judiclay Santos','Valter Reggiani']) {
     const pessoa = pessoas.find(p => p.nome === nome);
     assert.ok(pessoa, nome);
     assert.ok(existsSync(new URL(pessoa.foto, import.meta.url)), pessoa.foto);
   }
 });
 
-test('participantes dos duelos estão nas tier lists, exceto os Lima', async () => {
+test('pregadores e históricos estão nas tier lists; categoria dos hereges fica fora', async () => {
   const {CATEGORIAS} = await import('./duelos/torneio.mjs');
   const aliases = {'Hernandes Dias Lopes':'HDL', 'Agostinho de Hipona':'Agostinho', 'Charles H. Spurgeon':'Charles Spurgeon'};
   for (const arquivo of ['index.html', 'historia/index.html']) {
@@ -88,7 +88,11 @@ test('participantes dos duelos estão nas tier lists, exceto os Lima', async () 
     assert.equal(new Set(pessoas.map(p => p.id)).size, pessoas.length);
     assert.equal(new Set(pessoas.map(p => p.nome)).size, pessoas.length);
     for (const p of pessoas) assert.ok(existsSync(new URL(p.foto, new URL(arquivo, import.meta.url))), p.nome);
-    const categorias = arquivo.startsWith('historia') ? ['historicos'] : ['pregadores','hereges'];
+    if (arquivo === 'index.html') {
+      const excluidos = [...CATEGORIAS.find(c => c.id === 'hereges').pessoas.map(p => p.nome), 'Márcio Poncio'];
+      for (const nome of excluidos) assert.ok(!pessoas.some(p => p.nome === nome), nome);
+    }
+    const categorias = arquivo.startsWith('historia') ? ['historicos'] : ['pregadores'];
     for (const c of CATEGORIAS.filter(c => categorias.includes(c.id))) for (const p of c.pessoas) {
       const existe = pessoas.some(item => item.nome === (aliases[p.nome] || p.nome));
       assert.equal(existe, !['Leandro Lima','Sérgio Lima'].includes(p.nome), p.nome);

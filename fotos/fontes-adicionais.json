@@ -13,9 +13,10 @@
   },
   {
     "nome": "Judiclay Santos",
-    "arquivo": "46.jpg",
-    "pagina": "https://www.ministeriofiel.com.br/portugal/lideres/Judiclay.html",
-    "imagem": "https://www.ministeriofiel.com.br/portugal/lideres/upload/speakers/sp1%402x.jpg"
+    "arquivo": "judiclay-santos.jpg",
+    "pagina": "https://doity.com.br/conferencia-pro-nobis-norte",
+    "imagem": "https://grcmlesydpcd.objectstorage.sa-saopaulo-1.oci.customer-oci.com/p/OQwcvnO-c63O08Gc2Kv4OTbJttj5ik60dguiDIyyQ0wuo5SWn-jHOLW9wNbylNqI/n/grcmlesydpcd/b/dtysppobjmntbkp01/o/media/doity/eventos/evento-267959-logo_organizador.jpeg",
+    "observacao": "Retrato divulgado na página da Conferência Pro Nobis Norte 2026."
   },
   {
     "nome": "Valter Reggiani",
@@ -28,5 +29,12 @@
     "arquivo": "48.jpg",
     "pagina": "https://oglobo.globo.com/rio/policia-civil-instaura-inquerito-para-apurar-ataques-racistas-machistas-homofobicos-feitos-por-pastor-durante-culto-25167367",
     "imagem": "https://ogimg.infoglobo.com.br/in/25167365-a50-0e2/FT1086A/760/76403611_RIRio-de-Janeiro-RJ26-04-2018Varios-membros-da-Igreja-Geracao-Jesus-Cristo-fic.jpg"
+  },
+  {
+    "nome": "Franklin Ferreira",
+    "arquivo": "franklin-ferreira.jpg",
+    "pagina": "https://voltemosaoevangelho.com/blog/autor/franklin-ferreira/",
+    "imagem": "https://i0.wp.com/voltemosaoevangelho.com/blog/wp-content/uploads/2020/08/Franklin-Ferreira.jpg?fit=683%2C683&ssl=1",
+    "observacao": "Retrato profissional com enquadramento completo do rosto."
   }
 ]
