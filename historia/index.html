@@ -517,6 +517,36 @@ escuroSistema.addEventListener?.("change", marcarTema);
 new MutationObserver(marcarTema).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 marcarTema();
 
+/* ===== Atualização automática =====
+   Quando uma versão nova é publicada, a página recarrega sozinha (as posições ficam salvas no navegador).
+   Compara o código desta página com o publicado; espera a pessoa terminar o que está fazendo. */
+(function () {
+  if (!/(\.github\.io|^127\.0\.0\.1|^localhost)$/.test(location.hostname)) return;
+  const assinatura = doc => [...doc.querySelectorAll("script:not([src]), style")].map(e => e.textContent).join("\u0000");
+  const atual = assinatura(document);
+  let pendente = false;
+  const ocupado = () => {
+    const a = document.activeElement;
+    return !modal.hidden || selecionado || (a && (a.isContentEditable || a.tagName === "INPUT"));
+  };
+  async function checar() {
+    if (document.hidden) return;
+    if (!pendente) {
+      try {
+        const r = await fetch(location.pathname + "?v=" + Date.now(), { cache: "no-store" });
+        if (!r.ok) return;
+        const novo = assinatura(new DOMParser().parseFromString(await r.text(), "text/html"));
+        if (novo && novo !== atual) pendente = true;
+      } catch (e) { return; }
+    }
+    if (pendente && !ocupado()) location.reload();
+  }
+  setInterval(() => { if (pendente) checar(); }, 5000);
+  setInterval(checar, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) checar(); });
+  setTimeout(checar, 3000);
+})();
+
 render();
 </script>
 </body>
